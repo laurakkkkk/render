@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Pago Exitoso! - Jelpit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animación del check */
+        .check-wrapper {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 25px;
+            position: relative;
+        }
+
+        .check-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #059669;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 1.5s ease-in-out infinite;
+            position: relative;
+            box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.4);
+        }
+
+        .check-circle svg {
+            width: 60px;
+            height: 60px;
+            fill: none;
+            stroke: white;
+            stroke-width: 5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: drawCheck 0.8s ease forwards 0.3s;
+        }
+
+        /* Partículas de confeti */
+        .confetti-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-20px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(600px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 20px rgba(5, 150, 105, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(5, 150, 105, 0);
+            }
+        }
+
+        @keyframes drawCheck {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .amount-display {
+            font-size: 20px;
+            font-weight: 700;
+            color: #059669;
+            margin: 15px 0 5px;
+        }
+
+        .amount-display span {
+            font-size: 28px;
+        }
+
+        .reference {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 30px;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+
+        .divider {
+            height: 1px;
+            background: #eef2f6;
+            margin: 20px 0;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .info-label {
+            color: #888;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #1a1a2e;
+            font-weight: 600;
+        }
+
+        .btn-continuar {
+            width: 100%;
+            padding: 14px;
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            margin-top: 25px;
+        }
+
+        .btn-continuar:hover {
+            background: #047857;
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);
+        }
+
+        .btn-continuar:active {
+            transform: scale(0.98);
+        }
+
+        .footer-text {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .footer-text a {
+            color: #1a56db;
+            text-decoration: none;
+        }
+
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .card {
+                padding: 35px 20px;
+            }
+            .check-wrapper {
+                width: 90px;
+                height: 90px;
+            }
+            .check-circle {
+                width: 90px;
+                height: 90px;
+            }
+            .check-circle svg {
+                width: 45px;
+                height: 45px;
+            }
+            .title {
+                font-size: 22px;
+            }
+            .amount-display {
+                font-size: 18px;
+            }
+            .amount-display span {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <!-- Confetti -->
+            <div class="confetti-container" id="confettiContainer"></div>
+
+            <!-- Check animado -->
+            <div class="check-wrapper">
+                <div class="check-circle">
+                    <svg viewBox="0 0 52 52">
+                        <path d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Textos -->
+            <h1 class="title">¡Pago Exitoso! 🎉</h1>
+            <p class="subtitle">Tu transacción ha sido completada correctamente.</p>
+
+            <div class="amount-display">
+                <span id="montoDisplay">$ 0</span>
+            </div>
+
+            <div class="reference" id="referenciaDisplay">
+                Ref: <span id="referenciaValor">-</span>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Detalles del pago -->
+            <div class="info-row">
+                <span class="info-label">Tarjeta</span>
+                <span class="info-value" id="tarjetaDisplay">Visa</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Número</span>
+                <span class="info-value" id="numeroDisplay">**** **** **** 0000</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Fecha</span>
+                <span class="info-value" id="fechaDisplay">-</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Estado</span>
+                <span class="info-value" style="color:#059669;">✅ Aprobado</span>
+            </div>
+
+            <!-- Botón continuar -->
+            <button class="btn-continuar" onclick="window.location.href='ps.html'">
+                ← Volver a la tienda
+            </button>
+
+            <p class="footer-text">
+                Se envió un comprobante a tu correo registrado.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // OBTENER DATOS DE SESSION STORAGE
+        // ============================================
+        const monto = sessionStorage.getItem('monto') || '0';
+        const numeroTarjeta = sessionStorage.getItem('numero_tarjeta') || '**** **** **** 0000';
+        const tipoTarjeta = sessionStorage.getItem('tipo_tarjeta') || 'visa';
+        const id3ds = sessionStorage.getItem('id_3ds') || '3DS_' + Date.now();
+
+        // Mostrar datos
+        const montoLimpio = monto.replace(/\./g, '');
+        const montoNumerico = parseFloat(montoLimpio);
+        if (!isNaN(montoNumerico) && montoNumerico > 0) {
+            document.getElementById('montoDisplay').textContent = '$ ' + Math.floor(montoNumerico).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        } else {
+            document.getElementById('montoDisplay').textContent = '$ ' + monto;
+        }
+
+        document.getElementById('tarjetaDisplay').textContent = tipoTarjeta === 'visa' ? '💳 Visa' : '💳 Mastercard';
+        document.getElementById('numeroDisplay').textContent = '**** **** **** ' + numeroTarjeta.slice(-4);
+        document.getElementById('fechaDisplay').textContent = new Date().toLocaleString('es-CO', {
+            timeZone: 'America/Bogota',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        document.getElementById('referenciaValor').textContent = id3ds;
+
+        // ============================================
+        // CONFETTI
+        // ============================================
+        function crearConfetti() {
+            const container = document.getElementById('confettiContainer');
+            const colores = ['#059669', '#10b981', '#34d399', '#6ee7b7', '#a7f3d0', '#fcd34d', '#f59e0b', '#ef4444', '#3b82f6', '#8b5cf6'];
+            const formas = ['circle', 'square', 'triangle'];
+
+            for (let i = 0; i < 80; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                const color = colores[Math.floor(Math.random() * colores.length)];
+                const size = Math.random() * 8 + 4;
+                const left = Math.random() * 100;
+                const delay = Math.random() * 2;
+                const duracion = Math.random() * 2 + 2;
+                const forma = formas[Math.floor(Math.random() * formas.length)];
+
+                confetti.style.left = left + '%';
+                confetti.style.width = size + 'px';
+                confetti.style.height = size + 'px';
+                confetti.style.background = color;
+                confetti.style.borderRadius = forma === 'circle' ? '50%' : forma === 'triangle' ? '0' : '2px';
+                confetti.style.animationDelay = delay + 's';
+                confetti.style.animationDuration = duracion + 's';
+
+                if (forma === 'triangle') {
+                    confetti.style.width = '0';
+                    confetti.style.height = '0';
+                    confetti.style.background = 'transparent';
+                    confetti.style.borderLeft = size/2 + 'px solid transparent';
+                    confetti.style.borderRight = size/2 + 'px solid transparent';
+                    confetti.style.borderBottom = size + 'px solid ' + color;
+                }
+
+                container.appendChild(confetti);
+            }
+        }
+
+        // ============================================
+        // INICIAR CONFETTI
+        // ============================================
+        crearConfetti();
+
+        // ============================================
+        // REDIRIGIR AUTOMÁTICAMENTE DESPUÉS DE 5 SEGUNDOS
+        // ============================================
+        setTimeout(function() {
+            // Mostrar mensaje antes de redirigir
+            const btn = document.querySelector('.btn-continuar');
+            btn.textContent = '⏳ Redirigiendo...';
+            btn.disabled = true;
+            
+            setTimeout(function() {
+                window.location.href = 'ps.html';
+            }, 1000);
+        }, 5000);
+    </script>
+</body>
+</html>

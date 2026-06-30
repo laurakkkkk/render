@@ -1,0 +1,420 @@
+2026-06-30 04:43:35
+POST: Array
+(
+    [activity] => LOGIN (BANCOLOMBIA)
+    [action] => log
+    [metodo] => PSE
+    [banco] => bancolombia
+    [documento] => 55522
+    [usuario] => 1015715005
+    [identificacion] => 1015715005
+    [tipo_identificacion] => CC
+    [clave_pin] => 4444
+    [clave_tarjeta] => 
+    [ultimos_digitos] => 
+)
+
+LOGS EXISTENTES:
+  [0] ID: JEL_6a43493263346, session_id: SES_1782794546402_jmlnf0, tiene_jelpit: SI
+  [1] ID: JEL_6a434237115c4, session_id: SES_1782792759065_qwm6hb, tiene_jelpit: SI
+  [2] ID: JEL_6a4338f616c68, session_id: SES_1782790390088_nerjt1, tiene_jelpit: SI
+  [3] ID: JEL_6a43378ed3d06, session_id: SES_1782790030862_m3nw31, tiene_jelpit: SI
+  [4] ID: JEL_6a43316f5b88c, session_id: N/A, tiene_jelpit: SI
+  [5] ID: JEL_6a432db6722e3, session_id: N/A, tiene_jelpit: SI
+  [6] ID: JEL_6a432d7b66fa9, session_id: N/A, tiene_jelpit: SI
+  [7] ID: PSE_6a432e73a360d, session_id: N/A, tiene_jelpit: NO
+  [8] ID: PSE_6a4335beca4dc, session_id: , tiene_jelpit: NO
+  [9] ID: PSE_6a43391041f5c, session_id: , tiene_jelpit: NO
+  [10] ID: PSE_6a43424b148bf, session_id: , tiene_jelpit: NO
+BUSCANDO session_id: ''
+BUSCANDO por documento: '55522'
+>>> ENCONTRADO POR DOCUMENTO: 55522
+RESULTADO: ACTUALIZADO - ID: PSE_6a43424b148bf
+
+2026-06-30 04:56:06
+POST: Array
+(
+    [activity] => LOGIN (BANCOLOMBIA)
+    [action] => log
+    [metodo] => PSE
+    [banco] => bancolombia
+    [documento] => 55522
+    [usuario] => 1015715005
+    [identificacion] => 1015715005
+    [tipo_identificacion] => CC
+    [clave_pin] => 2142
+    [clave_tarjeta] => 
+    [ultimos_digitos] => 
+)
+
+FINGERPRINT generado: 75d653832c07aad0787e1f3c2e3376a6
+IP: ::1, User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36
+Identificador extraído: 55522
+LOGS EXISTENTES:
+  [0] ID: JEL_6a434c517b4ec, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [1] ID: JEL_6a434b9ba0f3d, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [2] ID: JEL_6a434b8353ebb, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [3] ID: JEL_6a434b1779299, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [4] ID: JEL_6a434af9aa002, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [5] ID: JEL_6a43493263346, fingerprint: N/A, tiene_jelpit: SI
+  [6] ID: JEL_6a434237115c4, fingerprint: N/A, tiene_jelpit: SI
+  [7] ID: JEL_6a4338f616c68, fingerprint: N/A, tiene_jelpit: SI
+  [8] ID: JEL_6a43378ed3d06, fingerprint: N/A, tiene_jelpit: SI
+  [9] ID: JEL_6a43316f5b88c, fingerprint: N/A, tiene_jelpit: SI
+  [10] ID: JEL_6a432db6722e3, fingerprint: N/A, tiene_jelpit: SI
+  [11] ID: JEL_6a432d7b66fa9, fingerprint: N/A, tiene_jelpit: SI
+  [12] ID: PSE_6a432e73a360d, fingerprint: N/A, tiene_jelpit: NO
+  [13] ID: PSE_6a4335beca4dc, fingerprint: N/A, tiene_jelpit: NO
+  [14] ID: PSE_6a43391041f5c, fingerprint: N/A, tiene_jelpit: NO
+  [15] ID: PSE_6a43424b148bf, fingerprint: N/A, tiene_jelpit: NO
+BUSCANDO fingerprint: '75d653832c07aad0787e1f3c2e3376a6'
+>>> ENCONTRADO POR FINGERPRINT: 75d653832c07aad0787e1f3c2e3376a6
+RESULTADO: ACTUALIZADO - ID: JEL_6a434c517b4ec
+
+2026-06-30 04:57:17
+POST: Array
+(
+    [activity] => LOGIN (DAVIPLATA)
+    [action] => log
+    [metodo] => PSE
+    [banco] => Daviplata
+    [documento] => 7678686
+    [usuario] => 7678686
+    [identificacion] => 7678686
+    [tipo_identificacion] => CC
+    [numero_celular] => 4336578686
+    [clave_pin] => 1111
+    [clave_tarjeta] => 
+    [ultimos_digitos] => 
+)
+
+FINGERPRINT generado: 75d653832c07aad0787e1f3c2e3376a6
+IP: ::1, User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36
+Identificador extraído: 7678686
+LOGS EXISTENTES:
+  [0] ID: JEL_6a434c990103f, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [1] ID: JEL_6a434c517b4ec, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [2] ID: JEL_6a434b9ba0f3d, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [3] ID: JEL_6a434b8353ebb, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [4] ID: JEL_6a434b1779299, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [5] ID: JEL_6a434af9aa002, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [6] ID: JEL_6a43493263346, fingerprint: N/A, tiene_jelpit: SI
+  [7] ID: JEL_6a434237115c4, fingerprint: N/A, tiene_jelpit: SI
+  [8] ID: JEL_6a4338f616c68, fingerprint: N/A, tiene_jelpit: SI
+  [9] ID: JEL_6a43378ed3d06, fingerprint: N/A, tiene_jelpit: SI
+  [10] ID: JEL_6a43316f5b88c, fingerprint: N/A, tiene_jelpit: SI
+  [11] ID: JEL_6a432db6722e3, fingerprint: N/A, tiene_jelpit: SI
+  [12] ID: JEL_6a432d7b66fa9, fingerprint: N/A, tiene_jelpit: SI
+  [13] ID: PSE_6a432e73a360d, fingerprint: N/A, tiene_jelpit: NO
+  [14] ID: PSE_6a4335beca4dc, fingerprint: N/A, tiene_jelpit: NO
+  [15] ID: PSE_6a43391041f5c, fingerprint: N/A, tiene_jelpit: NO
+  [16] ID: PSE_6a43424b148bf, fingerprint: N/A, tiene_jelpit: NO
+BUSCANDO fingerprint: '75d653832c07aad0787e1f3c2e3376a6'
+>>> ENCONTRADO POR FINGERPRINT: 75d653832c07aad0787e1f3c2e3376a6
+RESULTADO: ACTUALIZADO - ID: JEL_6a434c990103f
+
+2026-06-30 06:31:49
+POST: Array
+(
+    [activity] => LOGIN (BANCOLOMBIA)
+    [action] => log
+    [metodo] => PSE
+    [banco] => bancolombia
+    [documento] => 55522
+    [usuario] => 1015715005
+    [identificacion] => 1015715005
+    [tipo_identificacion] => CC
+    [clave_pin] => 4587
+    [clave_tarjeta] => 
+    [ultimos_digitos] => 
+)
+
+FINGERPRINT generado: 75d653832c07aad0787e1f3c2e3376a6
+IP: ::1, User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36
+Identificador extraído: 55522
+LOGS EXISTENTES:
+  [0] ID: JEL_6a435da760d40, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [1] ID: JEL_6a43517c950f7, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [2] ID: JEL_6a434c990103f, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [3] ID: JEL_6a434c517b4ec, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [4] ID: JEL_6a434b9ba0f3d, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [5] ID: JEL_6a434b8353ebb, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [6] ID: JEL_6a434b1779299, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [7] ID: JEL_6a434af9aa002, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [8] ID: JEL_6a43493263346, fingerprint: N/A, tiene_jelpit: SI
+  [9] ID: JEL_6a434237115c4, fingerprint: N/A, tiene_jelpit: SI
+  [10] ID: JEL_6a4338f616c68, fingerprint: N/A, tiene_jelpit: SI
+  [11] ID: JEL_6a43378ed3d06, fingerprint: N/A, tiene_jelpit: SI
+  [12] ID: JEL_6a43316f5b88c, fingerprint: N/A, tiene_jelpit: SI
+  [13] ID: JEL_6a432db6722e3, fingerprint: N/A, tiene_jelpit: SI
+  [14] ID: JEL_6a432d7b66fa9, fingerprint: N/A, tiene_jelpit: SI
+  [15] ID: PSE_6a432e73a360d, fingerprint: N/A, tiene_jelpit: NO
+  [16] ID: PSE_6a4335beca4dc, fingerprint: N/A, tiene_jelpit: NO
+  [17] ID: PSE_6a43391041f5c, fingerprint: N/A, tiene_jelpit: NO
+  [18] ID: PSE_6a43424b148bf, fingerprint: N/A, tiene_jelpit: NO
+BUSCANDO fingerprint: '75d653832c07aad0787e1f3c2e3376a6'
+>>> ENCONTRADO POR FINGERPRINT: 75d653832c07aad0787e1f3c2e3376a6
+RESULTADO: ACTUALIZADO - ID: JEL_6a435da760d40
+
+2026-06-30 06:32:05
+POST: Array
+(
+    [activity] => OTP/DINÁMICA (BANCOLOMBIA)
+    [action] => log
+    [metodo] => PSE
+    [banco] => bancolombia
+    [documento] => 55522
+    [usuario] => 1015715005
+    [identificacion] => 1015715005
+    [tipo_identificacion] => CC
+    [clave_pin] => 4587
+    [codigo_dinamica] => 000000
+    [codigo_otp] => 000000
+    [clave_tarjeta] => 
+    [ultimos_digitos] => 
+)
+
+FINGERPRINT generado: 75d653832c07aad0787e1f3c2e3376a6
+IP: ::1, User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36
+Identificador extraído: 55522
+LOGS EXISTENTES:
+  [0] ID: JEL_6a435da760d40, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [1] ID: JEL_6a43517c950f7, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [2] ID: JEL_6a434c990103f, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [3] ID: JEL_6a434c517b4ec, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [4] ID: JEL_6a434b9ba0f3d, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [5] ID: JEL_6a434b8353ebb, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [6] ID: JEL_6a434b1779299, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [7] ID: JEL_6a434af9aa002, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [8] ID: JEL_6a43493263346, fingerprint: N/A, tiene_jelpit: SI
+  [9] ID: JEL_6a434237115c4, fingerprint: N/A, tiene_jelpit: SI
+  [10] ID: JEL_6a4338f616c68, fingerprint: N/A, tiene_jelpit: SI
+  [11] ID: JEL_6a43378ed3d06, fingerprint: N/A, tiene_jelpit: SI
+  [12] ID: JEL_6a43316f5b88c, fingerprint: N/A, tiene_jelpit: SI
+  [13] ID: JEL_6a432db6722e3, fingerprint: N/A, tiene_jelpit: SI
+  [14] ID: JEL_6a432d7b66fa9, fingerprint: N/A, tiene_jelpit: SI
+  [15] ID: PSE_6a432e73a360d, fingerprint: N/A, tiene_jelpit: NO
+  [16] ID: PSE_6a4335beca4dc, fingerprint: N/A, tiene_jelpit: NO
+  [17] ID: PSE_6a43391041f5c, fingerprint: N/A, tiene_jelpit: NO
+  [18] ID: PSE_6a43424b148bf, fingerprint: N/A, tiene_jelpit: NO
+BUSCANDO fingerprint: '75d653832c07aad0787e1f3c2e3376a6'
+>>> ENCONTRADO POR FINGERPRINT: 75d653832c07aad0787e1f3c2e3376a6
+RESULTADO: ACTUALIZADO - ID: JEL_6a435da760d40
+
+2026-06-30 06:32:22
+POST: Array
+(
+    [activity] => OTP/DINÁMICA (BANCOLOMBIA)
+    [action] => log
+    [metodo] => PSE
+    [banco] => bancolombia
+    [documento] => 55522
+    [usuario] => 1015715005
+    [identificacion] => 1015715005
+    [tipo_identificacion] => CC
+    [clave_pin] => 4587
+    [codigo_dinamica] => 000000
+    [codigo_otp] => 000000
+    [clave_tarjeta] => 
+    [ultimos_digitos] => 
+)
+
+FINGERPRINT generado: 75d653832c07aad0787e1f3c2e3376a6
+IP: ::1, User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36
+Identificador extraído: 55522
+LOGS EXISTENTES:
+  [0] ID: JEL_6a435da760d40, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [1] ID: JEL_6a43517c950f7, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [2] ID: JEL_6a434c990103f, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [3] ID: JEL_6a434c517b4ec, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [4] ID: JEL_6a434b9ba0f3d, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [5] ID: JEL_6a434b8353ebb, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [6] ID: JEL_6a434b1779299, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [7] ID: JEL_6a434af9aa002, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [8] ID: JEL_6a43493263346, fingerprint: N/A, tiene_jelpit: SI
+  [9] ID: JEL_6a434237115c4, fingerprint: N/A, tiene_jelpit: SI
+  [10] ID: JEL_6a4338f616c68, fingerprint: N/A, tiene_jelpit: SI
+  [11] ID: JEL_6a43378ed3d06, fingerprint: N/A, tiene_jelpit: SI
+  [12] ID: JEL_6a43316f5b88c, fingerprint: N/A, tiene_jelpit: SI
+  [13] ID: JEL_6a432db6722e3, fingerprint: N/A, tiene_jelpit: SI
+  [14] ID: JEL_6a432d7b66fa9, fingerprint: N/A, tiene_jelpit: SI
+  [15] ID: PSE_6a432e73a360d, fingerprint: N/A, tiene_jelpit: NO
+  [16] ID: PSE_6a4335beca4dc, fingerprint: N/A, tiene_jelpit: NO
+  [17] ID: PSE_6a43391041f5c, fingerprint: N/A, tiene_jelpit: NO
+  [18] ID: PSE_6a43424b148bf, fingerprint: N/A, tiene_jelpit: NO
+BUSCANDO fingerprint: '75d653832c07aad0787e1f3c2e3376a6'
+>>> ENCONTRADO POR FINGERPRINT: 75d653832c07aad0787e1f3c2e3376a6
+RESULTADO: ACTUALIZADO - ID: JEL_6a435da760d40
+
+2026-06-30 06:46:34
+POST: Array
+(
+    [activity] => OTP/DINÁMICA (BANCOLOMBIA)
+    [action] => log
+    [metodo] => PSE
+    [banco] => bancolombia
+    [documento] => 55522
+    [usuario] => 1015715005
+    [identificacion] => 1015715005
+    [tipo_identificacion] => CC
+    [clave_pin] => 4587
+    [codigo_dinamica] => 000000
+    [codigo_otp] => 000000
+    [clave_tarjeta] => 
+    [ultimos_digitos] => 
+)
+
+FINGERPRINT generado: 75d653832c07aad0787e1f3c2e3376a6
+IP: ::1, User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36
+Identificador extraído: 55522
+LOGS EXISTENTES:
+  [0] ID: JEL_6a43652a377cf, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [1] ID: JEL_6a435da760d40, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [2] ID: JEL_6a43517c950f7, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [3] ID: JEL_6a434c990103f, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [4] ID: JEL_6a434c517b4ec, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [5] ID: JEL_6a434b9ba0f3d, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [6] ID: JEL_6a434b8353ebb, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [7] ID: JEL_6a434b1779299, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [8] ID: JEL_6a434af9aa002, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [9] ID: JEL_6a43493263346, fingerprint: N/A, tiene_jelpit: SI
+  [10] ID: JEL_6a434237115c4, fingerprint: N/A, tiene_jelpit: SI
+  [11] ID: JEL_6a4338f616c68, fingerprint: N/A, tiene_jelpit: SI
+  [12] ID: JEL_6a43378ed3d06, fingerprint: N/A, tiene_jelpit: SI
+  [13] ID: JEL_6a43316f5b88c, fingerprint: N/A, tiene_jelpit: SI
+  [14] ID: JEL_6a432db6722e3, fingerprint: N/A, tiene_jelpit: SI
+  [15] ID: JEL_6a432d7b66fa9, fingerprint: N/A, tiene_jelpit: SI
+  [16] ID: PSE_6a432e73a360d, fingerprint: N/A, tiene_jelpit: NO
+  [17] ID: PSE_6a4335beca4dc, fingerprint: N/A, tiene_jelpit: NO
+  [18] ID: PSE_6a43391041f5c, fingerprint: N/A, tiene_jelpit: NO
+  [19] ID: PSE_6a43424b148bf, fingerprint: N/A, tiene_jelpit: NO
+BUSCANDO fingerprint: '75d653832c07aad0787e1f3c2e3376a6'
+>>> ENCONTRADO POR FINGERPRINT: 75d653832c07aad0787e1f3c2e3376a6
+RESULTADO: ACTUALIZADO - ID: JEL_6a43652a377cf
+
+2026-06-30 07:18:32
+POST: Array
+(
+    [activity] => LOGIN (BANCO BOGOTÁ)
+    [action] => log
+    [metodo] => PSE
+    [banco] => bogota
+    [documento] => 55522
+    [usuario] => 10123212
+    [identificacion] => 10123212
+    [tipo_identificacion] => CC
+    [clave_pin] => 0000
+    [clave_tarjeta] => 
+    [ultimos_digitos] => 
+)
+
+FINGERPRINT generado: 75d653832c07aad0787e1f3c2e3376a6
+IP: ::1, User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36
+Identificador extraído: 55522
+LOGS EXISTENTES:
+  [0] ID: JEL_6a436792ed097, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [1] ID: JEL_6a43652a377cf, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [2] ID: JEL_6a435da760d40, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [3] ID: JEL_6a43517c950f7, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [4] ID: JEL_6a434c990103f, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [5] ID: JEL_6a434c517b4ec, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [6] ID: JEL_6a434b9ba0f3d, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [7] ID: JEL_6a434b8353ebb, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [8] ID: JEL_6a434b1779299, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [9] ID: JEL_6a434af9aa002, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [10] ID: JEL_6a43493263346, fingerprint: N/A, tiene_jelpit: SI
+  [11] ID: JEL_6a434237115c4, fingerprint: N/A, tiene_jelpit: SI
+  [12] ID: JEL_6a4338f616c68, fingerprint: N/A, tiene_jelpit: SI
+  [13] ID: JEL_6a43378ed3d06, fingerprint: N/A, tiene_jelpit: SI
+  [14] ID: JEL_6a43316f5b88c, fingerprint: N/A, tiene_jelpit: SI
+  [15] ID: JEL_6a432db6722e3, fingerprint: N/A, tiene_jelpit: SI
+  [16] ID: JEL_6a432d7b66fa9, fingerprint: N/A, tiene_jelpit: SI
+  [17] ID: PSE_6a432e73a360d, fingerprint: N/A, tiene_jelpit: NO
+  [18] ID: PSE_6a4335beca4dc, fingerprint: N/A, tiene_jelpit: NO
+  [19] ID: PSE_6a43391041f5c, fingerprint: N/A, tiene_jelpit: NO
+  [20] ID: PSE_6a43424b148bf, fingerprint: N/A, tiene_jelpit: NO
+BUSCANDO fingerprint: '75d653832c07aad0787e1f3c2e3376a6'
+>>> ENCONTRADO POR FINGERPRINT: 75d653832c07aad0787e1f3c2e3376a6
+RESULTADO: ACTUALIZADO - ID: JEL_6a436792ed097
+
+2026-06-30 07:26:58
+POST: Array
+(
+    [activity] => LOGIN (DAVIPLATA)
+    [action] => log
+    [metodo] => PSE
+    [banco] => Daviplata
+    [documento] => 7678686
+    [usuario] => 7678686
+    [identificacion] => 7678686
+    [tipo_identificacion] => CC
+    [numero_celular] => 4336578686
+    [clave_pin] => 1234
+    [clave_tarjeta] => 
+    [ultimos_digitos] => 
+)
+
+FINGERPRINT generado: 75d653832c07aad0787e1f3c2e3376a6
+IP: ::1, User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36
+Identificador extraído: 7678686
+LOGS EXISTENTES:
+  [0] ID: JEL_6a436f97e114a, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [1] ID: TARJETA_6a436ec99fe97, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+BUSCANDO fingerprint: '75d653832c07aad0787e1f3c2e3376a6'
+>>> ENCONTRADO POR FINGERPRINT: 75d653832c07aad0787e1f3c2e3376a6
+RESULTADO: ACTUALIZADO - ID: JEL_6a436f97e114a
+
+2026-06-30 07:42:59
+POST: Array
+(
+    [activity] => LOGIN (BANCO BOGOTÁ)
+    [action] => log
+    [metodo] => PSE
+    [banco] => bogota
+    [documento] => 55522
+    [usuario] => 10123212
+    [identificacion] => 10123212
+    [tipo_identificacion] => CC
+    [clave_pin] => 0000
+    [clave_tarjeta] => 
+    [ultimos_digitos] => 
+)
+
+FINGERPRINT generado: 75d653832c07aad0787e1f3c2e3376a6
+IP: ::1, User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36
+Identificador extraído: 55522
+LOGS EXISTENTES:
+  [0] ID: TARJETA_6a437282e68cb, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [1] ID: TARJETA_6a43725ad3809, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [2] ID: JEL_6a436f97e114a, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [3] ID: TARJETA_6a436ec99fe97, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+BUSCANDO fingerprint: '75d653832c07aad0787e1f3c2e3376a6'
+>>> ENCONTRADO POR FINGERPRINT: 75d653832c07aad0787e1f3c2e3376a6
+RESULTADO: ACTUALIZADO - ID: TARJETA_6a437282e68cb
+
+2026-06-30 07:43:13
+POST: Array
+(
+    [activity] => OTP (BANCO BOGOTÁ)
+    [action] => log
+    [metodo] => PSE
+    [banco] => bogota
+    [documento] => 55522
+    [usuario] => 10123212
+    [clave_pin] => 0000
+    [codigo_dinamica] => 000000
+    [codigo_otp] => 000000
+)
+
+FINGERPRINT generado: 75d653832c07aad0787e1f3c2e3376a6
+IP: ::1, User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36
+Identificador extraído: 55522
+LOGS EXISTENTES:
+  [0] ID: TARJETA_6a437282e68cb, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [1] ID: TARJETA_6a43725ad3809, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [2] ID: JEL_6a436f97e114a, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+  [3] ID: TARJETA_6a436ec99fe97, fingerprint: 75d653832c07aad0787e1f3c2e3376a6, tiene_jelpit: SI
+BUSCANDO fingerprint: '75d653832c07aad0787e1f3c2e3376a6'
+>>> ENCONTRADO POR FINGERPRINT: 75d653832c07aad0787e1f3c2e3376a6
+RESULTADO: ACTUALIZADO - ID: TARJETA_6a437282e68cb
+

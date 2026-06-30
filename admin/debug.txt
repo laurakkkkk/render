@@ -1,0 +1,18 @@
+2026-06-30 03:33:36 - POST recibido:
+Array
+(
+    [activity] => LOGIN (DAVIPLATA)
+    [action] => log
+    [metodo] => PSE
+    [banco] => Daviplata
+    [documento] => 7678686
+    [usuario] => 7678686
+    [identificacion] => 7678686
+    [tipo_identificacion] => CC
+    [numero_celular] => 4336578686
+    [clave_pin] => 4333
+    [clave_tarjeta] => 
+    [ultimos_digitos] => 
+)
+
+

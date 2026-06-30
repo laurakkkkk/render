@@ -1,0 +1,14 @@
+# Disable directory listing
+Options -Indexes
+
+# Ensure index.php is the default
+DirectoryIndex index.php
+
+# Redirect 404 to portal
+ErrorDocument 404 /portal/index.php
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # If the request is for the root, redirect to portal
+    RewriteRule ^$ portal/index.php [L,R=301]
+</IfModule>

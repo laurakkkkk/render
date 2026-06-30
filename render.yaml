@@ -1,0 +1,27 @@
+services:
+  # Servicio web principal - TU SITIO PÚBLICO
+  - type: web
+    name: jelpit-pagos
+    env: php
+    buildCommand: |
+      echo "🚀 Preparando proyecto..."
+      mkdir -p admin/data
+      chmod 755 admin/data
+    startCommand: |
+      echo "🚀 Iniciando servidor..."
+      php -S 0.0.0.0:10000 -t .
+    plan: free
+    envVars:
+      - key: PHP_VERSION
+        value: 8.2
+
+  # Cron Job - Mantiene la app activa cada 10 minutos (sin URL pública)
+  - type: cron
+    name: keep-alive
+    env: docker
+    schedule: "*/10 * * * *"
+    buildCommand: |
+      echo "FROM alpine:latest" > Dockerfile
+      echo "RUN apk add --no-cache curl" >> Dockerfile
+      echo "CMD curl -s https://jelpit-pagos.onrender.com/cron.php > /dev/null" >> Dockerfile
+    plan: free

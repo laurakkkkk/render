@@ -21,8 +21,8 @@ logMessage("🔄 Iniciando cron job...");
 // ============================================================
 // 2. DETECTAR LA URL BASE
 // ============================================================
-$baseUrl = 'https://' . ($_SERVER['HTTP_HOST'] ?? 'jelpit-pagos.onrender.com');
-
+// cron.php - Línea a modificar
+$baseUrl = 'https://' . ($_SERVER['HTTP_HOST'] ?? 'pagoadministrativojelp.onrender.com');
 // ============================================================
 // 3. URLs A LAS QUE HACER PING
 // ============================================================
